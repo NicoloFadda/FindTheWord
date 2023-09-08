@@ -7,7 +7,7 @@ GOTO check
 
 :check
 IF "%input%" == "" (
-	ECHO Input is empty
+	ECHO [93mInput is Empty![0m
 	GOTO start
 ) ELSE (
 	GOTO commit
@@ -23,6 +23,8 @@ git.exe push
 IF %errorlevel% == 0 (
 cls
 echo [92mSuccessfully Committed And Pushed.[0m
+) ELSE (
+echo [91mNot Committed. Error.[0m
 )
 
 :exit
