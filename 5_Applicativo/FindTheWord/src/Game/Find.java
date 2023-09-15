@@ -1,4 +1,7 @@
 package Game;
+
+import java.util.Random;
+
 /**
  * 
  * @author nicolo.fadda
@@ -6,19 +9,25 @@ package Game;
  * 
  */
 public class Find {
-    public Boolean findFromTop(){
-        return null;
+    private char[][] puzzle;
+    private Random random;
+    
+    
+    public void fillPuzzleRandomly() {
+        for (int i = 0; i < puzzle.length; i++) {
+            for (int j = 0; j < puzzle[i].length; j++) {
+                if (puzzle[i][j] == '\u0000') { // Check if cell is empty
+                    puzzle[i][j] = (char) (random.nextInt(26) + 'A'); // Generate a random letter
+                }
+            }
+        }
     }
-    public Boolean findFromBottom(){
-        return null;
-    }
-    public Boolean findFromLeft(){
-        return null;
-    }
-    public Boolean findFromRight(){
-        return null;
-    }
-    public Boolean isSimilar(){
-        return null;
+    public void displayPuzzle() {
+        for (int i = 0; i < puzzle.length; i++) {
+            for (int j = 0; j < puzzle[i].length; j++) {
+                System.out.print(puzzle[i][j] + " ");
+            }
+            System.out.println();
+        }
     }
 }

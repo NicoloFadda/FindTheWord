@@ -1,6 +1,7 @@
 package Game;
 
 import java.awt.Font;
+import java.io.File;
 
 /**
  * 
@@ -9,17 +10,17 @@ import java.awt.Font;
  * 
  */
 public class UserInput {
-    protected String dictionary;
+    protected File dictionary;
     protected Boolean difficulty;
     protected byte printFormat;
     protected Font font;
     protected int[][] matrix;
 
-    public String getDictionary() {
+    public File getDictionary() {
         return dictionary;
     }
 
-    public void setDictionary(String dictionary) {
+    public void setDictionary(File dictionary) {
         this.dictionary = dictionary;
     }
 
