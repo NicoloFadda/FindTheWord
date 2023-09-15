@@ -1,0 +1,49 @@
+@startuml
+!theme mars
+
+skin rose
+
+title Classi - FindTheWord
+
+
+Class UserInput{
+  -dictionary : String
+  -difficulty : Boolean
+  -printFormat : Byte
+  -font : Font
+  -matrix : Int[][]
+  setDictionary() : String
+  setDifficulty() : Boolean
+  setPrintFormat() : Byte
+  setFont() : Byte
+  setMatrix() : Int
+  getDictionary() : String
+  getDifficulty() : Boolean
+  getPrintFormat() : Byte
+  getFont() : Byte
+  getMatrix() : Int 
+}
+
+Class Interface{
+  
+}
+Class Game{
+  difficulty : UserInput.getDifficulty()
+  dictionary : UserInput.getDictionary()
+  printFormat : UserInput.getPrintFormat()
+  font : UserInput.getFont()
+  matrix : UserInput.getMatrix()
+  
+}
+Class Find{
+  findFromTop() : Boolean
+  findFromBottom() : Boolean
+  findFromRight() : Boolean
+  findFromLeft() : Boolean
+  isSimialar() : Boolean
+  
+}
+
+
+
+@endumls
