@@ -55,6 +55,9 @@ public class Puzzle {
             //TUTTE LE LETTERE DEL FILE DELLE PAROLE
         //2. FARE IN MODO CHE LA ROW E COL SIANO RANDOM
         //3. FARE IN MODO CHE LE POSIZIONI SIANO CASUALI
+        
+        //4. FARE IN MODO CHE LA LUNGHEZZA DELLE PAROLE NON SUPERINO
+            //LA LUNGHEZZA TOTALE DELLA GRIGLIA
         p.setWord("CIAO", 0, 0, true);
         p.fillPuzzleRandomly();
         p.displayPuzzle();
