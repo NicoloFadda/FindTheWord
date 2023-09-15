@@ -1,6 +1,8 @@
 package Game;
 
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * 
@@ -15,6 +17,19 @@ public class Puzzle {
     public Puzzle(int rows, int columns) {
     puzzle = new char[rows][columns];
     random = new Random();
+    }
+    
+    public void setWord(String word, int row, int col, boolean isHorizontal) {
+        int length = word.length();
+        if (isHorizontal) {
+            for (int i = 0; i < length; i++) {
+                puzzle[row][col + i] = word.charAt(i);
+            }
+        } else {
+            for (int i = 0; i < length; i++) {
+                puzzle[row + i][col] = word.charAt(i);
+            }
+        }
     }
     
     public void fillPuzzleRandomly() {
@@ -34,4 +49,16 @@ public class Puzzle {
             System.out.println();
         }
     }
+    public static void main(String[] args) {
+        Puzzle p = new Puzzle(20,20);
+        //1. FARE IN MODO CHE LA PAROLA DA SETTARE SIA RANDOM TRA
+            //TUTTE LE LETTERE DEL FILE DELLE PAROLE
+        //2. FARE IN MODO CHE LA ROW E COL SIANO RANDOM
+        //3. FARE IN MODO CHE LE POSIZIONI SIANO CASUALI
+        p.setWord("CIAO", 0, 0, true);
+        p.fillPuzzleRandomly();
+        p.displayPuzzle();
+        
+    }
+
 }
