@@ -8,10 +8,14 @@ import java.util.Random;
  * @version 15.09.2023
  * 
  */
-public class Find {
+public class Puzzle {
     private char[][] puzzle;
     private Random random;
     
+    public Puzzle(int rows, int columns) {
+    puzzle = new char[rows][columns];
+    random = new Random();
+    }
     
     public void fillPuzzleRandomly() {
         for (int i = 0; i < puzzle.length; i++) {
