@@ -4,6 +4,11 @@
  */
 package Game;
 
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.io.File;
+import javax.swing.JFileChooser;
+
 /**
  *
  * @author nicolo.fadda
@@ -34,13 +39,13 @@ public class Inteface extends javax.swing.JFrame {
         DifficoltaLabel = new javax.swing.JLabel();
         FormatoStampaLabel = new javax.swing.JLabel();
         FontLabel = new javax.swing.JLabel();
-        DizionarioFile = new javax.swing.JTextField();
         DifficoltaToggleONOFF = new javax.swing.JToggleButton();
         Stampa2Label = new javax.swing.JButton();
         Stampa1Label = new javax.swing.JButton();
         FontScrollPanel = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        FontScelta = new javax.swing.JList<>();
         GeneraButton = new javax.swing.JButton();
+        DizionarioFile = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,33 +72,57 @@ public class Inteface extends javax.swing.JFrame {
 
         DizionarioLabel.setText("Dizionario");
 
-        DifficoltaLabel.setText("Difficoltà");
+        DifficoltaLabel.setText("Difficoltà Bambini");
 
         FormatoStampaLabel.setText("Formato Stampa");
 
         FontLabel.setText("Font");
 
-        DizionarioFile.setText("jTextField1");
+        DifficoltaToggleONOFF.setText("On");
+        DifficoltaToggleONOFF.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                DifficoltaToggleONOFFItemStateChanged(evt);
+            }
+        });
+
+        Stampa2Label.setText("TXT");
+        Stampa2Label.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Stampa2LabelActionPerformed(evt);
+            }
+        });
+
+        Stampa1Label.setText("PNG");
+        Stampa1Label.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Stampa1LabelActionPerformed(evt);
+            }
+        });
+
+        FontScelta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        FontScelta.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "FONT 1", "FONT 2", "FONT 3", "FONT 4", "FONT 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        FontScelta.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        FontScelta.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        FontScelta.setName(""); // NOI18N
+        FontScrollPanel.setViewportView(FontScelta);
+
+        GeneraButton.setText("GENERA!");
+        GeneraButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                GeneraButtonActionPerformed(evt);
+            }
+        });
+
+        DizionarioFile.setText("Seleziona File...");
         DizionarioFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 DizionarioFileActionPerformed(evt);
             }
         });
-
-        DifficoltaToggleONOFF.setText("jToggleButton1");
-
-        Stampa2Label.setText("jButton2");
-
-        Stampa1Label.setText("jButton2");
-
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "FONT 1", "FONT 2", "FONT 3", "FONT 4", "FONT 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        FontScrollPanel.setViewportView(jList1);
-
-        GeneraButton.setText("GENERA!");
 
         javax.swing.GroupLayout SettingsPanelLayout = new javax.swing.GroupLayout(SettingsPanel);
         SettingsPanel.setLayout(SettingsPanelLayout);
@@ -105,15 +134,13 @@ public class Inteface extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SettingsPanelLayout.createSequentialGroup()
                         .addGap(182, 182, 182)
                         .addComponent(FontLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 305, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 311, Short.MAX_VALUE)
                         .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(SettingsPanelLayout.createSequentialGroup()
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SettingsPanelLayout.createSequentialGroup()
                                 .addComponent(Stampa1Label)
                                 .addGap(18, 18, 18)
                                 .addComponent(Stampa2Label))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SettingsPanelLayout.createSequentialGroup()
-                                .addComponent(FontScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(55, 55, 55)))
+                            .addComponent(FontScrollPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(181, 181, 181))
                     .addGroup(SettingsPanelLayout.createSequentialGroup()
                         .addGap(162, 162, 162)
@@ -121,13 +148,12 @@ public class Inteface extends javax.swing.JFrame {
                             .addGroup(SettingsPanelLayout.createSequentialGroup()
                                 .addComponent(DifficoltaLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(DifficoltaToggleONOFF)
-                                .addGap(208, 208, 208))
+                                .addComponent(DifficoltaToggleONOFF))
                             .addGroup(SettingsPanelLayout.createSequentialGroup()
                                 .addComponent(DizionarioLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(DizionarioFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(232, 232, 232))))))
+                                .addComponent(DizionarioFile)))
+                        .addGap(208, 208, 208))))
             .addGroup(SettingsPanelLayout.createSequentialGroup()
                 .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(SettingsPanelLayout.createSequentialGroup()
@@ -144,8 +170,8 @@ public class Inteface extends javax.swing.JFrame {
                 .addGap(57, 57, 57)
                 .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(DizionarioLabel)
-                    .addComponent(DizionarioFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(85, 85, 85)
+                    .addComponent(DizionarioFile))
+                .addGap(84, 84, 84)
                 .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(DifficoltaLabel)
                     .addComponent(DifficoltaToggleONOFF))
@@ -157,13 +183,13 @@ public class Inteface extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
                 .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SettingsPanelLayout.createSequentialGroup()
-                        .addComponent(FontScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(124, 124, 124))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SettingsPanelLayout.createSequentialGroup()
                         .addComponent(FontLabel)
-                        .addGap(62, 62, 62)
-                        .addComponent(GeneraButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(65, 65, 65))))
+                        .addGap(62, 62, 62))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SettingsPanelLayout.createSequentialGroup()
+                        .addComponent(FontScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14)))
+                .addComponent(GeneraButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(65, 65, 65))
         );
 
         TabPanel.addTab("Settings", SettingsPanel);
@@ -185,9 +211,44 @@ public class Inteface extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void GeneraButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GeneraButtonActionPerformed
+        //AGGIUNGERE EVENTO CHE AL CLICK FA ANDARE SULLA PAGINA DI GAME
+    }//GEN-LAST:event_GeneraButtonActionPerformed
+
+    private void Stampa1LabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Stampa1LabelActionPerformed
+        //AGGIUNGERE EVENTO CHE AL CLICK SALVA IL FILE IN FORMATO PNG
+    }//GEN-LAST:event_Stampa1LabelActionPerformed
+
+    private void Stampa2LabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Stampa2LabelActionPerformed
+        //AGGIUNGERE EVENTO CHE AL CLICK SALVA IL FILE IN FORMATO TXT
+    }//GEN-LAST:event_Stampa2LabelActionPerformed
+
     private void DizionarioFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DizionarioFileActionPerformed
-        // TODO add your handling code here:
+        //AGGIUNGERE EVENTO CHE FA SCEGLIERE IL FILE CON IL DIZIONARIO
+        //Uso la classe JFileChooser che mi aiuta con il mio caso
+        
+        //1. Creo l'oggetto JFileChooser
+        JFileChooser fileChooser = new JFileChooser();
+        //2. Seleziono tramite SetCurrentDirectory in quale directory l'utente
+        //   si troverà al momento che cliccherà il bottone
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        //3. ShowOpenDialog serve per far aprire la finestra di scelta (dialogo)
+        int result = fileChooser.showOpenDialog(this);
+        //4. 
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+        }
     }//GEN-LAST:event_DizionarioFileActionPerformed
+
+    private void DifficoltaToggleONOFFItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_DifficoltaToggleONOFFItemStateChanged
+        //AGGIUNGERE EVENTO CHE SEGNA LO STATO DEL BOTTONE ON OFF
+        if(DifficoltaToggleONOFF.isSelected()){
+            DifficoltaToggleONOFF.setText("ON");
+        }else{
+            DifficoltaToggleONOFF.setText("OFF");
+        }
+    }//GEN-LAST:event_DifficoltaToggleONOFFItemStateChanged
 
     /**
      * @param args the command line arguments
@@ -228,9 +289,10 @@ public class Inteface extends javax.swing.JFrame {
     private javax.swing.JLabel AboutText;
     private javax.swing.JLabel DifficoltaLabel;
     private javax.swing.JToggleButton DifficoltaToggleONOFF;
-    private javax.swing.JTextField DizionarioFile;
+    private javax.swing.JButton DizionarioFile;
     private javax.swing.JLabel DizionarioLabel;
     private javax.swing.JLabel FontLabel;
+    private javax.swing.JList<String> FontScelta;
     private javax.swing.JScrollPane FontScrollPanel;
     private javax.swing.JLabel FormatoStampaLabel;
     private javax.swing.JPanel GamePanel;
@@ -239,6 +301,5 @@ public class Inteface extends javax.swing.JFrame {
     private javax.swing.JButton Stampa1Label;
     private javax.swing.JButton Stampa2Label;
     private javax.swing.JTabbedPane TabPanel;
-    private javax.swing.JList<String> jList1;
     // End of variables declaration//GEN-END:variables
 }

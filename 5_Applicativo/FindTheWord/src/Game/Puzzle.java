@@ -59,6 +59,7 @@ public class Puzzle {
         //4. FARE IN MODO CHE LA LUNGHEZZA DELLE PAROLE NON SUPERINO
             //LA LUNGHEZZA TOTALE DELLA GRIGLIA
         p.setWord("CIAO", 0, 0, true);
+        p.setWord("PROVA",0,18,true);
         p.fillPuzzleRandomly();
         p.displayPuzzle();
         

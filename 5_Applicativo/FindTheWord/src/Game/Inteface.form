@@ -96,17 +96,14 @@
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace min="-2" pref="182" max="-2" attributes="0"/>
                               <Component id="FontLabel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="305" max="32767" attributes="0"/>
+                              <EmptySpace pref="311" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
                                       <Component id="Stampa1Label" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
                                       <Component id="Stampa2Label" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Component id="FontScrollPanel" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
-                                  </Group>
+                                  <Component id="FontScrollPanel" alignment="1" min="-2" pref="117" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="181" max="-2" attributes="0"/>
                           </Group>
@@ -117,15 +114,14 @@
                                       <Component id="DifficoltaLabel" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
                                       <Component id="DifficoltaToggleONOFF" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="208" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="102" alignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
                                       <Component id="DizionarioLabel" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="32767" attributes="0"/>
                                       <Component id="DizionarioFile" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="232" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
+                              <EmptySpace min="-2" pref="208" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -152,7 +148,7 @@
                           <Component id="DizionarioLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="DizionarioFile" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="DifficoltaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="DifficoltaToggleONOFF" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -166,16 +162,16 @@
                       <EmptySpace pref="87" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="FontScrollPanel" min="-2" pref="94" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="124" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="1" attributes="0">
                               <Component id="FontLabel" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
-                              <Component id="GeneraButton" min="-2" pref="41" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="FontScrollPanel" min="-2" pref="98" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                           </Group>
                       </Group>
+                      <Component id="GeneraButton" min="-2" pref="41" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="65" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -188,7 +184,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="DifficoltaLabel">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Difficolt&#xe0;"/>
+                <Property name="text" type="java.lang.String" value="Difficolt&#xe0; Bambini"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="FormatoStampaLabel">
@@ -201,28 +197,29 @@
                 <Property name="text" type="java.lang.String" value="Font"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="DizionarioFile">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="jTextField1"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DizionarioFileActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JToggleButton" name="DifficoltaToggleONOFF">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jToggleButton1"/>
+                <Property name="text" type="java.lang.String" value="On"/>
               </Properties>
+              <Events>
+                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="DifficoltaToggleONOFFItemStateChanged"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="Stampa2Label">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jButton2"/>
+                <Property name="text" type="java.lang.String" value="TXT"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Stampa2LabelActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="Stampa1Label">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jButton2"/>
+                <Property name="text" type="java.lang.String" value="PNG"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Stampa1LabelActionPerformed"/>
+              </Events>
             </Component>
             <Container class="javax.swing.JScrollPane" name="FontScrollPanel">
               <AuxValues>
@@ -231,8 +228,13 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JList" name="jList1">
+                <Component class="javax.swing.JList" name="FontScelta">
                   <Properties>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                        <LineBorder/>
+                      </Border>
+                    </Property>
                     <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
                       <StringArray count="5">
                         <StringItem index="0" value="FONT 1"/>
@@ -242,6 +244,11 @@
                         <StringItem index="4" value="FONT 5"/>
                       </StringArray>
                     </Property>
+                    <Property name="selectionMode" type="int" value="1"/>
+                    <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                      <Color id="Default Cursor"/>
+                    </Property>
+                    <Property name="name" type="java.lang.String" value="" noResource="true"/>
                   </Properties>
                   <AuxValues>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -253,6 +260,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="GENERA!"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="GeneraButtonActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="DizionarioFile">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Seleziona File..."/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="DizionarioFileActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
