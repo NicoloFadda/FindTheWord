@@ -128,27 +128,33 @@ public class Puzzle {
 
     public static void main(String[] args) {
 
-        //1. FARE IN MODO CHE LA PAROLA DA SETTARE SIA RANDOM TRA
-        //TUTTE LE LETTERE DEL FILE DELLE PAROLE
-        //2. FARE IN MODO CHE LA ROW E COL SIANO RANDOM
-        //3. FARE IN MODO CHE LE POSIZIONI SIANO CASUALI
-        //4. FARE IN MODO CHE LA LUNGHEZZA DELLE PAROLE NON SUPERINO
-        //LA LUNGHEZZA TOTALE DELLA GRIGLIA
+        //1. FARE IN MODO CHE LA PAROLA DA SETTARE SIA RANDOM TRA TUTTE LE LETTERE DEL FILE DELLE PAROLE
+        
+        //Inizializzo il puzzle con le righe e colonne impostate
+        //In seguito sarà da fare in modo che l'utente possa scegliere la grandezza
         Puzzle p = new Puzzle(20, 20);
+        //Inizializzo il random per poi inserire le parole
         Random random = new Random();
 
-        String word = "CIAO"; // Parola di prova
-        int maxLength = Math.max(word.length(), 20); // Massima lunghezza della parola
+        //Parola di prova
+        String word = "ENEA"; 
+        //Massima lunghezza della parola
+        int maxLength = Math.max(word.length(), 20); 
 
+        //Posizioni della parola
         int row = random.nextInt(20); // Genera una riga casuale tra 0 e 19
         int col = random.nextInt(20); // Genera una colonna casuale tra 0 e 19
 
+        //Booleano per decidere la direzione
         boolean isHorizontal = random.nextBoolean(); // Genera un valore booleano casuale
         boolean isDiagonal = random.nextBoolean(); // Genera un valore booleano casuale
         boolean isInverse = random.nextBoolean(); // Genera un valore booleano casuale
 
+        //Setto la parola
         p.setWord(word, row, col, isHorizontal, isDiagonal, isInverse);
+        //Riempo il puzzle di trattini
         p.fillPuzzle();
+        //Stampo il puzzle
         p.displayPuzzle();
     }
 
