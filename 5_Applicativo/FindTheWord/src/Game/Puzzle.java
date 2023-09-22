@@ -20,13 +20,13 @@ public class Puzzle {
     }
     
     public void setWord(String word, int row, int col, boolean isHorizontal) {
-        int length = word.length();
+        int wordLength = word.length();
         if (isHorizontal) {
-            for (int i = 0; i < length; i++) {
+            for (int i = 0; i < wordLength; i++) {
                 puzzle[row][col + i] = word.charAt(i);
             }
         } else {
-            for (int i = 0; i < length; i++) {
+            for (int i = 0; i < wordLength; i++) {
                 puzzle[row + i][col] = word.charAt(i);
             }
         }
@@ -36,7 +36,8 @@ public class Puzzle {
         for (int i = 0; i < puzzle.length; i++) {
             for (int j = 0; j < puzzle[i].length; j++) {
                 if (puzzle[i][j] == '\u0000') { // Check if cell is empty
-                    puzzle[i][j] = (char) (random.nextInt(26) + 'A'); // Generate a random letter
+                    //puzzle[i][j] = (char) (random.nextInt(26) + 'A'); // Generate a random letter
+                    puzzle[i][j] = '-';
                 }
             }
         }
@@ -59,7 +60,7 @@ public class Puzzle {
         //4. FARE IN MODO CHE LA LUNGHEZZA DELLE PAROLE NON SUPERINO
             //LA LUNGHEZZA TOTALE DELLA GRIGLIA
         p.setWord("CIAO", 0, 0, true);
-        p.setWord("PROVA",0,18,true);
+        p.setWord("PROVA",0,3,true);
         p.fillPuzzleRandomly();
         p.displayPuzzle();
         
