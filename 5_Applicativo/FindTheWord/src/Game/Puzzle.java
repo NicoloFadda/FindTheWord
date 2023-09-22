@@ -15,6 +15,7 @@ public class Puzzle {
     private char[][] puzzle;
     private Random random;
 
+
     public Puzzle(int rows, int columns) {
         puzzle = new char[rows][columns];
         random = new Random();
@@ -23,7 +24,7 @@ public class Puzzle {
     public void fillPuzzle() {
         for (int i = 0; i < puzzle.length; i++) {
             for (int j = 0; j < puzzle[i].length; j++) {
-                if (puzzle[i][j] == '\u0000') { // Check if cell is empty
+                if (puzzle[i][j] == '\u0000') {//Controllo se la cella sia vuota
                     //puzzle[i][j] = (char) (random.nextInt(26) + 'A'); // Generate a random letter
                     puzzle[i][j] = '-';
                 }
@@ -39,16 +40,81 @@ public class Puzzle {
             System.out.println();
         }
     }
-    //METODO DI DEBUG - POSIZIONA LE PAROLE NELLA GRIGLIA
+    //1. METODO DI CONTROLLO ORIZZONTALE
+    public boolean canBeHorizontal(String word, int col) {  
+        int maxCol = puzzle[0].length;
+        int wordLength = word.length();
+        return col + wordLength <= maxCol;
+    }
+    //2. METODO DI CONTROLLO DIAGONALE
+    public boolean canBeDiagonal(String word, int col, int row) {
+        int maxRow = puzzle.length;
+        int maxCol = puzzle[0].length;
+        int wordLength = word.length();
+        return row + wordLength <= maxRow && col + wordLength <= maxCol;
+    }
+    //3. METODO DI CONTROLLO AL CONTRARIO
+    public boolean canBeInverse(String word, int col) {
+        
+        int wordLength = word.length();
+        return col - wordLength >= 0;
+    }
+    //4. METODO DI CONTROLLO VERTICALE
+    public boolean canBeVertical(String word, int row) {
+        int maxRow = puzzle.length;
+        int wordLength = word.length();
+        return row + wordLength <= maxRow;
+    }
+    public void insertHorizontalWord(String word, int row, int col){
+        int wordLength = word.length();
+        for (int i = 0; i < wordLength; i++) {
+            puzzle[row][col + i] = word.charAt(i);
+        }
+    }
+    public void insertDiagonalWord(String word, int row, int col){
+        int wordLength = word.length();
+        for (int i = 0; i < wordLength; i++) {
+            puzzle[row + i][col + i] = word.charAt(i); //ALGORITMO DIAGONALE
+        }
+    }
+    public void insertInverseWord(String word, int row, int col){
+        int wordLength = word.length();
+        for (int i = 0; i < wordLength; i++) {
+            puzzle[row][col - i] = word.charAt(i); //ALGORITMO INVERSO
+        }
+    }
+    public void insertVerticalWord(String word, int row, int col){
+        int wordLength = word.length();
+        for (int i = 0; i < wordLength; i++) {
+            puzzle[row + i][col] = word.charAt(i); //ALGORITMO VERTICALE
+        }
+    }
+    //METODO PRINCIPALE - POSIZIONA LE PAROLE NELLA GRIGLIA
     /**
      * 
      * TODO: 
-     * 1. CREARE METODI SEPARATI PER I CONTROLLI PER LA PULIZIA DEL CODICE (H,V,D,INV)
-     * 2. CREARE METODO SEPARATI PER IL CONTROLLO DELLA LUNGHEZZA DELLA PAROLA
+     * 1.CREARE METODI SEPARATI PER I CONTROLLI PER LA PULIZIA DEL CODICE (O,V,D,INV)
+ 2. CREARE METODO SEPARATO PER IL CONTROLLO DELLA LUNGHEZZA DELLA PAROLA
+ 3. CREARE METODO SEPARATO PER CONTROLLO SOVRAPPOSIZIONE
+ 3.1 IL METODO DEVE POTER ACCETTARE UNA SOLA LETTERA DI SOVRAPPOSIZIONE
+ 3.1.1 IL METODO NON DEVE ACCETTARE LA SOVRAPPOSIZIONE NELLA STESSA DIREZIONE
      * 
+     * @param word
+     * @param row
+     * @param col
+     * @param isHorizontal
+     * @param isDiagonal
+     * @param isInverse
      */
-    
-    public void setWord(String word, int row, int col, boolean isHorizontal, boolean isDiagonal, boolean isInverse) {
+
+    public void setWord(
+            
+            //PARAMETRI PER IL METODO\\
+            String word, int row, int col,
+            boolean isHorizontal, boolean isDiagonal, boolean isInverse
+            //PARAMETRI PER IL METODO\\
+            
+    ) {
         //1. Memorizzare i massimi della griglia per evitare IndexOutOfBounds
         int wordLength = word.length();
         int maxRow = puzzle.length;
@@ -56,72 +122,83 @@ public class Puzzle {
         
         //2. Controllo se la parola è orizzontale
         if (isHorizontal) {
+            
             //2.1 Controllo se la parola può esistere nella griglia o è troppo lunga
-            if (col + wordLength <= maxCol) {
+            if (canBeHorizontal(word,col)) {
+                
                 //2.1.1 Inserisco la parola carattere per carattere
-                for (int i = 0; i < wordLength; i++) {
-                    puzzle[row][col + i] = word.charAt(i);
-                }
+                insertHorizontalWord(word,row,col);
+                
             //2.2 Se la parola è troppo lunga userà questa condizione
             } else {
+                
                 //2.2.1 Genera una nuova colonna casuale
                 int newCol = random.nextInt(maxCol - wordLength + 1); 
+                
                 //2.2.2 Inserisco la parola carattere per carattere
-                for (int i = 0; i < wordLength; i++) {
-                    puzzle[row][newCol + i] = word.charAt(i); //ALGORITMO ORIZZONTALE
-                }
+                insertHorizontalWord(word,row,newCol);
+                
             }
+            
         //3. Controllo se la parola è in diagonale
         } else if (isDiagonal) {
+            
             //3.1 Controllo se la parola può esistere nella griglia o è troppo lunga
-            if (row + wordLength <= maxRow && col + wordLength <= maxCol) {
+            if (canBeDiagonal(word,col,row)) {
+                
                 //3.1.1 Inserisco la parola carattere per carattere
-                for (int i = 0; i < wordLength; i++) {
-                    puzzle[row + i][col + i] = word.charAt(i); //ALGORITMO DIAGONALE
-                }
+                insertDiagonalWord(word,row,col);
+                
             //3.2 Se la parola è troppo lunga userà questa condizione
             } else {
+                
                 //3.2.1 Genera una nuova riga e colonna casuale
                 int newRow = random.nextInt(maxRow - wordLength + 1); 
-                int newCol = random.nextInt(maxCol - wordLength + 1); 
+                int newCol = random.nextInt(maxCol - wordLength + 1);
+                
                 //3.2.2 Inserisco la parola carattere per carattere
-                for (int i = 0; i < wordLength; i++) {
-                    puzzle[newRow + i][newCol + i] = word.charAt(i); 
-                }
+                insertDiagonalWord(word,newRow,newCol);
+                
             }
+            
         //4. Controllo se la parola è al contrario
         } else if (isInverse) {
+            
             //4.1 Controllo se la parola può esistere nella griglia o è troppo lunga
-            if (col - wordLength >= 0) {
+            if (canBeInverse(word,col)) {
+                
                 //4.1.1 Inserisco la parola carattere per carattere
-                for (int i = 0; i < wordLength; i++) {
-                    puzzle[row][col - i] = word.charAt(i); //ALGORITMO INVERSO
-                }
+                insertInverseWord(word,row,col);
+                
             //4.2 Se la parola è troppo lunga userà questa condizione
             } else {
+                
                 //4.2.1 Genera una nuova colonna casuale
                 int newCol = random.nextInt(maxCol - wordLength + 1);
+                
                 //4.2.2 Inserisco la parola carattere per carattere
-                for (int i = 0; i < wordLength; i++) {
-                    puzzle[row][newCol + i] = word.charAt(i);
-                }
+                insertInverseWord(word,row,newCol);
+                
             }
+            
         //5. Se non è nessuna delle precedenti allora è in verticale
         } else {
+            
             //5.1 Controllo se la parola può esistere nella griglia o è troppo lunga
-            if (row + wordLength <= maxRow) {
+            if (canBeVertical(word, row)) {
+                
                 //5.1.1 Inserisco la parola carattere per carattere
-                for (int i = 0; i < wordLength; i++) {
-                    puzzle[row + i][col] = word.charAt(i); //ALGORITMO VERTICALE
-                }
+                insertVerticalWord(word,row,col);
+                
             //5.2 Se la parola è troppo lunga userà questa condizione
             } else {
+                
                 //5.2.1 Genera una nuova riga casuale
                 int newRow = random.nextInt(maxRow - wordLength + 1); 
+                
                 //5.2.2 Inserisco la parola carattere per carattere
-                for (int i = 0; i < wordLength; i++) {
-                    puzzle[newRow + i][col] = word.charAt(i);
-                }
+                insertVerticalWord(word,newRow,col);
+                
             }
         }
     }
