@@ -1,5 +1,7 @@
 package Game;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
@@ -14,12 +16,15 @@ public class Puzzle {
 
     private char[][] puzzle;
     private Random random;
+    
 
 
     public Puzzle(int rows, int columns) {
         puzzle = new char[rows][columns];
         random = new Random();
     }
+    
+    
 
     public void fillPuzzle() {
         for (int i = 0; i < puzzle.length; i++) {
@@ -205,18 +210,16 @@ public class Puzzle {
 
     public static void main(String[] args) {
 
-        //1. FARE IN MODO CHE LA PAROLA DA SETTARE SIA RANDOM TRA TUTTE LE LETTERE DEL FILE DELLE PAROLE
+        //1. FARE IN MODO CHE LA PAROLA DA SETTARE SIA RANDOM TRA TUTTE LE LETTERE DEL FILE DELLE PAROLE$
+        //1.1 FARE IN MODO CHE DA UN ARRAY STAMPA LE PAROLE
         
         //Inizializzo il puzzle con le righe e colonne impostate
         //In seguito sarà da fare in modo che l'utente possa scegliere la grandezza
         Puzzle p = new Puzzle(20, 20);
         //Inizializzo il random per poi inserire le parole
         Random random = new Random();
-
-        //Parola di prova
-        String word = "ENEA"; 
-        //Massima lunghezza della parola
-        int maxLength = Math.max(word.length(), 20); 
+        //Parole di prova (dovrà essere sostituita dalle parole del file)
+        String[] parole = {"CIAO","FADDA","JACKOPO","ENEA","MARCO","RICH"};
 
         //Posizioni della parola
         int row = random.nextInt(20); // Genera una riga casuale tra 0 e 19
@@ -226,9 +229,14 @@ public class Puzzle {
         boolean isHorizontal = random.nextBoolean(); // Genera un valore booleano casuale
         boolean isDiagonal = random.nextBoolean(); // Genera un valore booleano casuale
         boolean isInverse = random.nextBoolean(); // Genera un valore booleano casuale
-
+        
+        int randomIndex = random.nextInt(parole.length+1);
+        
+        //Massima lunghezza della parola
+        /*int maxLength = Math.max(word.length(), 20); */
         //Setto la parola
-        p.setWord(word, row, col, isHorizontal, isDiagonal, isInverse);
+        
+        p.setWord(parole[randomIndex], row, col, isHorizontal, isDiagonal, isInverse);
         //Riempo il puzzle di trattini
         p.fillPuzzle();
         //Stampo il puzzle

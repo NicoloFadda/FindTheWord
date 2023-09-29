@@ -199,7 +199,7 @@
             </Component>
             <Component class="javax.swing.JToggleButton" name="DifficoltaToggleONOFF">
               <Properties>
-                <Property name="text" type="java.lang.String" value="On"/>
+                <Property name="text" type="java.lang.String" value="OFF"/>
               </Properties>
               <Events>
                 <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="DifficoltaToggleONOFFItemStateChanged"/>

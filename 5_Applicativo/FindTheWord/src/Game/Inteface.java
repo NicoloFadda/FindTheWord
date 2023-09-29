@@ -78,7 +78,7 @@ public class Inteface extends javax.swing.JFrame {
 
         FontLabel.setText("Font");
 
-        DifficoltaToggleONOFF.setText("On");
+        DifficoltaToggleONOFF.setText("OFF");
         DifficoltaToggleONOFF.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 DifficoltaToggleONOFFItemStateChanged(evt);
@@ -250,6 +250,7 @@ public class Inteface extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_DifficoltaToggleONOFFItemStateChanged
 
+    
     /**
      * @param args the command line arguments
      */
