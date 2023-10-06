@@ -92,6 +92,7 @@ public class Puzzle {
      * 3.1 IL METODO DEVE POTER ACCETTARE UNA SOLA LETTERA DI SOVRAPPOSIZIONE
      * --> DA FARE 3.1.1 IL METODO NON DEVE ACCETTARE LA SOVRAPPOSIZIONE NELLA
      * STESSA DIREZIONE --> DA FARE
+     * CONTROLLARE PRIMA DELL'INSERT SE SI SOVRAPPONGONO LE PAROLE!!!!!!!!!!!!!
      *
      * @param word
      * @param row
@@ -135,6 +136,7 @@ public class Puzzle {
             } else {
 
                 //3.2.1 Ritornare false
+                
             }
 
             //4. Controllo se la parola è al contrario
@@ -195,7 +197,11 @@ public class Puzzle {
         //Parole di prova (dovrà essere sostituita dalle parole del file)
         String[] parole = {"CIAO", "FADDA", "JACKOPO", "ENEA", "MARCO", "RICH"};
 
+        //p.setWord("ciao",1,0,-1,false);
+        //p.setWord("ciao",0,0,-2,false);
         //Posizioni della parola
+        //DA DECOMMENTARE QUANDO FINITO INCROCI
+        
         for (String word : parole) {
             int row = random.nextInt(maxRow);
             int col = random.nextInt(maxCol);
@@ -205,7 +211,7 @@ public class Puzzle {
 
             p.setWord(word, row, col, orientation, isInverse);
         }
-
+        
         //Massima lunghezza della parola
         /*int maxLength = Math.max(word.length(), 20); */
         //Setto la parola

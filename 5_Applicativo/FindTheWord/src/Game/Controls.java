@@ -49,11 +49,26 @@ public class Controls {
         return row + wordLength <= maxRow && col - wordLength >= maxCol;
     }
     public boolean isOverlapping(){
+        //Controllare se la cella non è libera
+        //Se non è libera ma il char della parola è uguale al char della parola già nella cella
+        //--> continua la parola
+        //Se non è libera --> cambia posizione della parola
+        //Continuare a farlo finchè non trova x celle per n caratteri
         
         return false;
     }
+    
     public int checkOrientation(int orientation){
-        int orRan = random.nextInt(-4,-1);
-        return orRan;
+        if(orientation == -1){
+            return orientation;
+        }else if(orientation == -2){
+            return orientation;
+        }else if(orientation == -3){
+            return orientation;
+        }else{
+            return -4;
+        }
     }
+    
 }
+
