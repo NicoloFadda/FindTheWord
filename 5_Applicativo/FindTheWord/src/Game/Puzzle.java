@@ -120,6 +120,14 @@ public class Puzzle {
             }else{
                 //Ritornare false
             }
+        //INVERSO
+        }else if(isInverse){
+            if(controls.isInBoundsInverse(word,col)){
+                //Inserisco la parola carattere per carattere
+                insertWord.insertInverseWord(word, row, col, puzzle);
+            }
+        }else{
+            //Ritornare false
         }
     }
 }
