@@ -7,6 +7,9 @@ package Game;
  *
  */
 public class InsertWords {
+    
+    //DA FARE IL 20.10 IL WHILE PER LE PAROLE CHE SI OVERLAPPANO
+    
     //1. ALGORITMO ORIZZONTALE
     public void insertHorizontalWord(String word, int row, int col, char[][] board) {
         int wordLength = word.length();
@@ -21,7 +24,7 @@ public class InsertWords {
             board[row + i][col] = word.charAt(i); 
         }
     }
-    //3. ALGORITMO DIAGONALE BOTTOM-RIGHT-TOP-LEFT
+    //3. ALGORITMO DIAGONALE BOTTOM-RIGHT-TOP-LEFT 
     public void insertDiagonalWordBRTL(String word, int row, int col, char[][] board) {
         int wordLength = word.length();
         for (int i = 0; i < wordLength; i++) {
@@ -42,7 +45,7 @@ public class InsertWords {
             board[row + i][col + i] = word.charAt(i); 
         }
     }
-    //6. ALGORITMO DIAGONALE BOTTOM-LEFT-TOP-RIGHT
+    //6. ALGORITMO DIAGONALE BOTTOM-LEFT-TOP-RIGHT //DA ERRORI OUTOFBOUNDS
     public void insertDiagonalWordBLTR(String word, int row, int col, char[][] board) {
         int wordLength = word.length();
         for (int i = 0; i < wordLength; i++) {

@@ -18,18 +18,23 @@ import java.util.Set;
 //se insert parola fallisce (per vari motivi) uscire con return NON riprovare a caso dentro la funzione
 //non usare parole random, cominciare con un set controllato con coordinate controllate
 //metodo diagonaleBLTR
-public class Puzzle {
+public class Puzzle{
 
     private Controls controls;
     private char[][] puzzle;
     private Random random;
     private InsertWords insertWord;
+    private int rows;
+    private int cols;
 
     public Puzzle(int rows, int columns) {
-        puzzle = new char[rows][columns];
+        this.cols = columns;
+        this.rows = rows;
+        this.puzzle = new char[rows][columns];
         random = new Random();
         controls = new Controls();
         insertWord = new InsertWords();
+
     }
 
     public void fillPuzzle() {
@@ -51,6 +56,23 @@ public class Puzzle {
         }
     }
 
+
+    public char getValue(int row,int col) {
+        return this.puzzle[row][col];
+    }
+    
+    public int getRows(){
+        return this.rows;
+    }
+    
+    public int getColums(){
+        return this.cols;
+    }
+
+    public void setPuzzle(char[][] puzzle) {
+        this.puzzle = puzzle;
+    }
+    
     //METODO PRINCIPALE - POSIZIONA LE PAROLE NELLA GRIGLIA
     /**
      *
@@ -70,16 +92,19 @@ public class Puzzle {
 
         //ORIZZONTALE
         if (controls.checkOrientation(orientation) == Consts.costanti.HORIZONTAL) { //FUNZIONA
-            if (controls.isInBoundsHorizontal(word, col)) {
+            if (controls.isInBoundsHorizontal(word, col, this)) {
 
                 //Inserisco la parola carattere per carattere
-                insertWord.insertHorizontalWord(word, row, col, puzzle);
+                while(!controls.isOverlapping(word, row, col, orientation, this)){
+                    insertWord.insertHorizontalWord(word, row, col, puzzle);
+                }
             } else {
                 //Ritornare false
+                
             }
         //VERTICALE
         } else if (controls.checkOrientation(orientation) == Consts.costanti.VERTICAL) { //FUNZIONA
-            if (controls.isInBoundsVertical(word, row)) {
+            if (controls.isInBoundsVertical(word, row,this)) {
 
                 //Inserisco la parola carattere per carattere
                 insertWord.insertVerticalWord(word, row, col, puzzle);
@@ -88,7 +113,7 @@ public class Puzzle {
             }
         //DIAGONALE ALTO-SINISTRA-BASSO-DESTRA
         } else if (controls.checkOrientation(orientation) == Consts.costanti.DIAGONAL_TLBR) { //FUNZIONA
-            if (controls.isInBoundsDiagonalTLBR(word, col, row)) {
+            if (controls.isInBoundsDiagonalTLBR(word, col, row,this)) {
 
                 //3.1.1 Inserisco la parola carattere per carattere
                 insertWord.insertDiagonalWordTLBR(word, row, col, puzzle);
@@ -97,16 +122,17 @@ public class Puzzle {
             }
         //DIAGONALE BASSO-SINISTRA-ALTO-DESTRA
         } else if (controls.checkOrientation(orientation) == Consts.costanti.DIAGONAL_BLTR) { //FUNZIONA
-            if (controls.isInBoundsDiagonalBLTR(word, col, row)) {
+            if (controls.isInBoundsDiagonalBLTR(word, col, row,this)) {
 
                 //Inserisco la parola carattere per carattere
                 insertWord.insertDiagonalWordBLTR(word, row, col, puzzle);
             } else {
-                //Ritornare false
+                //Ritornare false --> cambiare colonna
+                
             }
         //DIAGONALE ALTO-DESTRA-BASSO-SINISTRA
         } else if (controls.checkOrientation(orientation) == Consts.costanti.DIAGONAL_TRBL) {
-            if (controls.isInBoundsDiagonalTRBL(word, col, row)) {
+            if (controls.isInBoundsDiagonalTRBL(word, col, row,this)) {
                 //Inserisco la parola carattere per carattere
                 insertWord.insertDiagonalWordTRBL(word, row, col, puzzle);
             }else{
@@ -114,7 +140,7 @@ public class Puzzle {
             }
         //DIAGONALE BASSO-DESTRA-ALTO-SINISTRA
         } else if(controls.checkOrientation(orientation) == Consts.costanti.DIAGONAL_BRTL){
-            if(controls.isInBoundsDiagonalBRTL(word, col, row)){
+            if(controls.isInBoundsDiagonalBRTL(word, col, row,this)){
                 //Inserisco la parola carattere per carattere
                 insertWord.insertDiagonalWordBRTL(word, row, col, puzzle);
             }else{
