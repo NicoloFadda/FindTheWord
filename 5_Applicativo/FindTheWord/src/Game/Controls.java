@@ -27,6 +27,10 @@ public class Controls {
             return orientation;
         }else if(orientation == Consts.costanti.DIAGONAL_BRTL){
             return orientation;
+        }else if(orientation == Consts.costanti.HORIZONTAL_INVERSE){
+            return orientation;
+        }else if(orientation == Consts.costanti.VERTICAL_INVERSE){
+            return orientation;
         }else{
             return 0;
         }
@@ -62,18 +66,19 @@ public class Controls {
         }
         return col + wordLength <= maxCol && row - wordLength >= 0;
     }
-     //4. METODO DI CONTROLLO DIAGONALE BOTTOM-RIGHT-TOP-LEFT
-    public boolean isInBoundsDiagonalBRTL(String word, int col, int row, Puzzle board) {
+     //4. METODO DI CONTROLLO DIAGONALE BOTTOM-RIGHT-TOP-LEFT 
+    public boolean isInBoundsDiagonalBRTL(String word, int col, int row, Puzzle board) { //FUNZIONA
         int maxCol = board.getColums();
         int wordLength = word.length();
-        return row - wordLength >= 0 && col + wordLength <= maxCol;
+        return row+1 - wordLength >= 0 && col >= wordLength-1;
     }
+    
      //5. METODO DI CONTROLLO DIAGONALE TOP-RIGHT-BOTTOM-LEFT
-    public boolean isInBoundsDiagonalTRBL(String word, int col, int row, Puzzle board) {
+    public boolean isInBoundsDiagonalTRBL(String word, int col, int row, Puzzle board) { //FUNZIONA
         int maxRow = board.getRows();
         int maxCol = board.getColums();
         int wordLength = word.length();
-        return row + wordLength <= maxRow && col + wordLength <= maxCol;
+        return row + wordLength <= maxRow && col+1 >= wordLength && col <= maxCol-1;
     }
     //6. METODO DI CONTROLLO DIAGONALE TOP-LEFT-BOTTOM-RIGHT
     public boolean isInBoundsDiagonalTLBR(String word, int col, int row, Puzzle board) {
@@ -82,12 +87,19 @@ public class Controls {
         int wordLength = word.length();
         return row + wordLength <= maxRow && col + wordLength <= maxCol;
     }
-    //7. METODO DI CONTROLLO AL CONTRARIO
-    public boolean isInBoundsInverse(String word, int col) {
+    //7. METODO DI CONTROLLO AL CONTRARIO ORIZZONTALE
+    public boolean isInBoundsInverseHorizontal(String word, int col) {
         
         int wordLength = word.length();
         return col - wordLength >= 0;
     }
+    //8. METODO DI CONTROLLO AL CONTRARIO VERTICALE
+    public boolean isInBoundsInverseVertical(String word, int row){
+        int wordLength = word.length();
+        return row - wordLength >= 0;
+    }
+
+    //8. METODO DI CONTROLLO OVERLAP: FALSE --> OVERLAP | TRUE --> STESSA LETTERA --> NO OVERLAP
     public boolean isOverlapping(String word, int row, int col, int orientation, Puzzle board) {
         int wordLength = word.length();
         //Controllo se la lettera alla posizione x è '-' (vuota) o esiste, se esiste 
@@ -104,7 +116,6 @@ public class Controls {
                 }
             }
         }
-
         return true;
     }
 }

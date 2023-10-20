@@ -17,7 +17,6 @@ import java.util.Set;
 //rinominare canBe.. in isInBounds generica, non solo H o D o V --> FATTO
 //se insert parola fallisce (per vari motivi) uscire con return NON riprovare a caso dentro la funzione
 //non usare parole random, cominciare con un set controllato con coordinate controllate
-//metodo diagonaleBLTR
 public class Puzzle{
 
     private Controls controls;
@@ -88,7 +87,7 @@ public class Puzzle{
      * @param orientation
      * @param isInverse
      */
-    public void setWord(String word, int row, int col, int orientation, boolean isInverse) {
+    public void setWord(String word, int row, int col, int orientation) {
 
         //ORIZZONTALE
         if (controls.checkOrientation(orientation) == Consts.costanti.HORIZONTAL) { //FUNZIONA
@@ -99,7 +98,8 @@ public class Puzzle{
                     insertWord.insertHorizontalWord(word, row, col, puzzle);
                 }
             } else {
-                //Ritornare false
+                //Rigenerare la parola
+                System.out.println("La parola orizzontale " + word.toUpperCase() + " non viene generata" + " " + row + " " + col);
                 
             }
         //VERTICALE
@@ -107,59 +107,86 @@ public class Puzzle{
             if (controls.isInBoundsVertical(word, row,this)) {
 
                 //Inserisco la parola carattere per carattere
-                insertWord.insertVerticalWord(word, row, col, puzzle);
+                while(!controls.isOverlapping(word, row, col, orientation, this)){
+                    insertWord.insertVerticalWord(word, row, col, puzzle);
+                }
             } else {
-                //Ritornare false
+                //Rigenerare la parola
+                System.out.println("La parola verticale " + word.toUpperCase() + " non viene generata" + " " + row + " " + col);
             }
         //DIAGONALE ALTO-SINISTRA-BASSO-DESTRA
         } else if (controls.checkOrientation(orientation) == Consts.costanti.DIAGONAL_TLBR) { //FUNZIONA
             if (controls.isInBoundsDiagonalTLBR(word, col, row,this)) {
 
                 //3.1.1 Inserisco la parola carattere per carattere
-                insertWord.insertDiagonalWordTLBR(word, row, col, puzzle);
+                while(!controls.isOverlapping(word, row, col, orientation, this)){
+                    insertWord.insertDiagonalWordTLBR(word, row, col, puzzle);
+                }
             } else {
-                //Ritornare false
+                //Rigenerare la parola
+                System.out.println("La parola TLBR " + word.toUpperCase() + " non viene generata" + " " + row + " " + col);
             }
         //DIAGONALE BASSO-SINISTRA-ALTO-DESTRA
         } else if (controls.checkOrientation(orientation) == Consts.costanti.DIAGONAL_BLTR) { //FUNZIONA
             if (controls.isInBoundsDiagonalBLTR(word, col, row,this)) {
 
                 //Inserisco la parola carattere per carattere
-                insertWord.insertDiagonalWordBLTR(word, row, col, puzzle);
+                while(!controls.isOverlapping(word, row, col, orientation, this)){
+                    insertWord.insertDiagonalWordBLTR(word, row, col, puzzle);
+                }
             } else {
-                //Ritornare false --> cambiare colonna
+                //Rigenerare la parola
+                System.out.println("La parola BLTR " + word.toUpperCase() + " non viene generata" + " " + row + " " + col);
                 
             }
+            
         //DIAGONALE ALTO-DESTRA-BASSO-SINISTRA
-        } else if (controls.checkOrientation(orientation) == Consts.costanti.DIAGONAL_TRBL) {
+        } else if (controls.checkOrientation(orientation) == Consts.costanti.DIAGONAL_TRBL) { //FUNZIONA
             if (controls.isInBoundsDiagonalTRBL(word, col, row,this)) {
                 //Inserisco la parola carattere per carattere
-                insertWord.insertDiagonalWordTRBL(word, row, col, puzzle);
+                while(!controls.isOverlapping(word, row, col, orientation, this)){
+                    insertWord.insertDiagonalWordTRBL(word, row, col, puzzle);
+                }
+                
             }else{
-                //Ritornare false
+                //Rigenerare la parola
+                System.out.println("La parola TRBL " + word.toUpperCase() + " non viene generata" + " " + row + " " + col);
             }
         //DIAGONALE BASSO-DESTRA-ALTO-SINISTRA
-        } else if(controls.checkOrientation(orientation) == Consts.costanti.DIAGONAL_BRTL){
+        } else if(controls.checkOrientation(orientation) == Consts.costanti.DIAGONAL_BRTL){ //FUNZIONA
             if(controls.isInBoundsDiagonalBRTL(word, col, row,this)){
                 //Inserisco la parola carattere per carattere
-                insertWord.insertDiagonalWordBRTL(word, row, col, puzzle);
+                while(!controls.isOverlapping(word, row, col, orientation, this)){
+                    insertWord.insertDiagonalWordBRTL(word, row, col, puzzle);
+                }
+                
             }else{
-                //Ritornare false
+                //Rigenerare la parola
+                System.out.println("La parola BRTL " + word.toUpperCase() + " non viene generata" + " " + row + " " + col);
             }
-        //INVERSO
-        }else if(isInverse){
-            if(controls.isInBoundsInverse(word,col)){
+        //INVERSO ORIZZONTALE
+        }else if(controls.checkOrientation(orientation) == Consts.costanti.HORIZONTAL_INVERSE){
+            if(controls.isInBoundsInverseHorizontal(word,col)){
                 //Inserisco la parola carattere per carattere
-                insertWord.insertInverseWord(word, row, col, puzzle);
+                while(!controls.isOverlapping(word, row, col, orientation, this)){
+                    insertWord.insertInverseWordHorizontal(word, row, col, puzzle);
+                }
+            }
+        }else if(controls.checkOrientation(orientation) == Consts.costanti.VERTICAL_INVERSE){
+            if(controls.isInBoundsInverseVertical(word, row)){
+                while(!controls.isOverlapping(word, row, col, orientation, this)){
+                    //Inserisco la parola carattere per carattere
+                    insertWord.insertInverseWordVertical(word, row, col, puzzle);
+                }
             }
         }else{
-            //Ritornare false
+            //Rigenerare la parola
+            System.out.println("La parola invertita " + word.toUpperCase() + ", " + orientation + " non viene generata"  + " " + row + " " + col);
         }
     }
 }
 //1. FARE IN MODO CHE LA PAROLA DA SETTARE SIA RANDOM TRA TUTTE LE LETTERE DEL FILE DELLE PAROLE$
 //1.1 FARE IN MODO CHE DA UN ARRAY STAMPA LE PAROLE
-//Inizializzo il puzzle con le righe e colonne impostate
 //In seguito sarà da fare in modo che l'utente possa scegliere la grandezza
 
 //FATTI:
@@ -168,6 +195,5 @@ public class Puzzle{
 //3. INVERSO
 //4. ALTO-SINISTRA-BASSO-DESTRA
 //5. BASSO-SINISTRA-ALTO-DESTRA
-//DA FARE:
 //1. BASSO-DESTRA-ALTO-SINISTRA
 //2. ALTO-DESTRA-BASSO-SINISTRA

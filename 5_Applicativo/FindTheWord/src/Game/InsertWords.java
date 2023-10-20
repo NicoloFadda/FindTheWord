@@ -52,11 +52,18 @@ public class InsertWords {
             board[row - i][col + i] = word.charAt(i); 
         }
     }
-    //7. ALGORITMO INVERSO
-    public void insertInverseWord(String word, int row, int col, char[][] board) {
+    //7. ALGORITMO INVERSO ORIZZONTALE
+    public void insertInverseWordHorizontal(String word, int row, int col, char[][] board) {
         int wordLength = word.length();
         for (int i = 0; i < wordLength; i++) {
             board[row][col - i] = word.charAt(i); 
+        }
+    }
+    //7. ALGORITMO INVERSO VERTICALE
+    public void insertInverseWordVertical(String word, int row, int col, char[][] board) {
+        int wordLength = word.length();
+        for (int i = 0; i < wordLength; i++) {
+            board[row - i][col] = word.charAt(i);
         }
     }
 }

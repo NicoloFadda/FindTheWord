@@ -20,7 +20,9 @@ public class Main {
         Puzzle p = new Puzzle(maxRow, maxCol);
 
         //Parole di prova (dovrà essere sostituita dalle parole del file)
-        String[] parole = {"CIAO", "FADDA", "JACKOPO", "ENEA", "MARCO", "RICH"};
+        String[] parole = {"FADDA","JACKOPO","CORTI","ENEA","LUIS","CIOBA",
+        "RICHI","FAUL","MARCO"};
+        
 
         //DEBUG OVERLAP
         //p.setWord("ciao",1,0,-1,false);
@@ -28,18 +30,20 @@ public class Main {
         
         //DA DECOMMENTARE QUANDO FINITO INCROCI
         
-        /*
-        for (String word : parole) { int row = random.nextInt(maxRow); int
-        col = random.nextInt(maxCol);
+        for(String word : parole) {
+            int row = random.nextInt(maxRow);
+            int col = random.nextInt(maxCol);
+
+            boolean isInverse = random.nextBoolean();
+            int orientation = random.nextInt(-8, -1);
+
+            p.setWord(word, row, col, orientation); 
         
-        boolean isInverse = random.nextBoolean(); int orientation =
-        random.nextInt(-4, -1);
+        }
         
-        p.setWord(word, row, col, orientation, isInverse); }
-         */
         
-        p.setWord("MARCO", 4, 5, -1, false);
-        p.setWord("OCA",4,7,-1,false);
+        //p.setWord("MARCO", 0, 14, -5);
+        //p.setWord("OCA",2,8,-2,false);
         
 
         //Riempo il puzzle di trattini
