@@ -74,17 +74,17 @@ public class Puzzle{
     
     //METODO PRINCIPALE - POSIZIONA LE PAROLE NELLA GRIGLIA
     /**
-     *
-     * TODO: 3. CREARE METODO SEPARATO PER CONTROLLO SOVRAPPOSIZIONE --> IN CORSO
-     * 3.1 IL METODO DEVE POTER ACCETTARE UNA SOLA LETTERA DI SOVRAPPOSIZIONE --> LO FA MA SBAGLIATO
-     *
      * @param word
      * @param row
      * @param col
      * @param orientation
      * @param isInverse
      */
+    //TODO (27.10)
     //Da mettere boolean quando finita pulizia codice!
+    //Da fare metodo unico per checkOrientation
+    //Da fare metodo unico per IsInBounds
+    //Da fare metodo unico per InsertWord
     public void setWord(String word, int row, int col, int orientation) {
 
         //ORIZZONTALE

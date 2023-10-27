@@ -11,6 +11,10 @@ import java.util.Random;
  */
 public class Controls {
 
+    //Metodo da fare unico per orientation
+    public int checkFinalOrientation(){
+        return 0;
+    }
     public int checkOrientation(int orientation) {
         return switch (orientation) {
             case Consts.costanti.HORIZONTAL ->
@@ -33,7 +37,9 @@ public class Controls {
                 0;
         };
     }
-
+    //Metodo da fare unico per isInBounds
+    
+    
     //1. METODO DI CONTROLLO ORIZZONTALE
     public boolean isInBoundsHorizontal(String word, int col, Puzzle board) {
         int maxCol = board.getColums();
