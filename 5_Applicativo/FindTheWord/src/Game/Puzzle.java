@@ -75,11 +75,8 @@ public class Puzzle{
     //METODO PRINCIPALE - POSIZIONA LE PAROLE NELLA GRIGLIA
     /**
      *
-     * TODO: 3. CREARE METODO SEPARATO PER CONTROLLO SOVRAPPOSIZIONE --> DA FARE
-     * 3.1 IL METODO DEVE POTER ACCETTARE UNA SOLA LETTERA DI SOVRAPPOSIZIONE
-     * --> DA FARE 3.1.1 IL METODO NON DEVE ACCETTARE LA SOVRAPPOSIZIONE NELLA
-     * STESSA DIREZIONE --> DA FARE CONTROLLARE PRIMA DELL'INSERT SE SI
-     * SOVRAPPONGONO LE PAROLE!!!!!!!!!!!!!
+     * TODO: 3. CREARE METODO SEPARATO PER CONTROLLO SOVRAPPOSIZIONE --> IN CORSO
+     * 3.1 IL METODO DEVE POTER ACCETTARE UNA SOLA LETTERA DI SOVRAPPOSIZIONE --> LO FA MA SBAGLIATO
      *
      * @param word
      * @param row
@@ -87,6 +84,7 @@ public class Puzzle{
      * @param orientation
      * @param isInverse
      */
+    //Da mettere boolean quando finita pulizia codice!
     public void setWord(String word, int row, int col, int orientation) {
 
         //ORIZZONTALE
@@ -94,7 +92,7 @@ public class Puzzle{
             if (controls.isInBoundsHorizontal(word, col, this)) {
 
                 //Inserisco la parola carattere per carattere
-                while(!controls.isOverlapping(word, row, col, orientation, this)){
+                if(controls.isValidOverlapping(word, row, col, orientation, this)){
                     insertWord.insertHorizontalWord(word, row, col, puzzle);
                 }
             } else {
@@ -107,7 +105,7 @@ public class Puzzle{
             if (controls.isInBoundsVertical(word, row,this)) {
 
                 //Inserisco la parola carattere per carattere
-                while(!controls.isOverlapping(word, row, col, orientation, this)){
+                if(controls.isValidOverlapping(word, row, col, orientation, this)){
                     insertWord.insertVerticalWord(word, row, col, puzzle);
                 }
             } else {
@@ -119,7 +117,7 @@ public class Puzzle{
             if (controls.isInBoundsDiagonalTLBR(word, col, row,this)) {
 
                 //3.1.1 Inserisco la parola carattere per carattere
-                while(!controls.isOverlapping(word, row, col, orientation, this)){
+                if(controls.isValidOverlapping(word, row, col, orientation, this)){
                     insertWord.insertDiagonalWordTLBR(word, row, col, puzzle);
                 }
             } else {
@@ -131,7 +129,7 @@ public class Puzzle{
             if (controls.isInBoundsDiagonalBLTR(word, col, row,this)) {
 
                 //Inserisco la parola carattere per carattere
-                while(!controls.isOverlapping(word, row, col, orientation, this)){
+                if(controls.isValidOverlapping(word, row, col, orientation, this)){
                     insertWord.insertDiagonalWordBLTR(word, row, col, puzzle);
                 }
             } else {
@@ -144,7 +142,7 @@ public class Puzzle{
         } else if (controls.checkOrientation(orientation) == Consts.costanti.DIAGONAL_TRBL) { //FUNZIONA
             if (controls.isInBoundsDiagonalTRBL(word, col, row,this)) {
                 //Inserisco la parola carattere per carattere
-                while(!controls.isOverlapping(word, row, col, orientation, this)){
+                if(controls.isValidOverlapping(word, row, col, orientation, this)){
                     insertWord.insertDiagonalWordTRBL(word, row, col, puzzle);
                 }
                 
@@ -156,7 +154,7 @@ public class Puzzle{
         } else if(controls.checkOrientation(orientation) == Consts.costanti.DIAGONAL_BRTL){ //FUNZIONA
             if(controls.isInBoundsDiagonalBRTL(word, col, row,this)){
                 //Inserisco la parola carattere per carattere
-                while(!controls.isOverlapping(word, row, col, orientation, this)){
+                if(controls.isValidOverlapping(word, row, col, orientation, this)){
                     insertWord.insertDiagonalWordBRTL(word, row, col, puzzle);
                 }
                 
@@ -168,13 +166,13 @@ public class Puzzle{
         }else if(controls.checkOrientation(orientation) == Consts.costanti.HORIZONTAL_INVERSE){
             if(controls.isInBoundsInverseHorizontal(word,col)){
                 //Inserisco la parola carattere per carattere
-                while(!controls.isOverlapping(word, row, col, orientation, this)){
+                if(controls.isValidOverlapping(word, row, col, orientation, this)){
                     insertWord.insertInverseWordHorizontal(word, row, col, puzzle);
                 }
             }
         }else if(controls.checkOrientation(orientation) == Consts.costanti.VERTICAL_INVERSE){
             if(controls.isInBoundsInverseVertical(word, row)){
-                while(!controls.isOverlapping(word, row, col, orientation, this)){
+                if(controls.isValidOverlapping(word, row, col, orientation, this)){
                     //Inserisco la parola carattere per carattere
                     insertWord.insertInverseWordVertical(word, row, col, puzzle);
                 }

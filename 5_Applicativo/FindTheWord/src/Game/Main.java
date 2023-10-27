@@ -19,6 +19,9 @@ public class Main {
         
         Puzzle p = new Puzzle(maxRow, maxCol);
 
+        //Riempo il puzzle di trattini
+        p.fillPuzzle();
+        
         //Parole di prova (dovrà essere sostituita dalle parole del file)
         String[] parole = {"FADDA","JACKOPO","CORTI","ENEA","LUIS","CIOBA",
         "RICHI","FAUL","MARCO"};
@@ -46,10 +49,13 @@ public class Main {
         //p.setWord("OCA",2,8,-2,false);
         
 
-        //Riempo il puzzle di trattini
-        p.fillPuzzle();
 
         //Stampo il puzzle
         p.displayPuzzle();
+        
+        //STAMPA DI TUTTE LE PAROLE NELL'ARRAY
+        for(int i = 0; i < parole.length; i++){
+            System.out.println("Parola: " + parole[i]);
+        }
     }
 }
