@@ -53,5 +53,7 @@ public class Main {
         }
         //Stampo il puzzle
         p.displayPuzzle();
+        
+        
     }
 }

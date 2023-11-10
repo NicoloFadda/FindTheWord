@@ -66,4 +66,32 @@ public class InsertWords {
             board[row - i][col] = word.charAt(i);
         }
     }
+    public void insertWord(String word, int row, int col, int orientation, char[][] board){
+        switch(orientation){
+            case Consts.costanti.HORIZONTAL:
+                insertHorizontalWord(word, row, col, board);
+                break;
+            case Consts.costanti.VERTICAL:
+                insertVerticalWord(word, row, col, board);
+                break;
+            case Consts.costanti.DIAGONAL_BRTL:
+                insertDiagonalWordBRTL(word, row, col, board);
+                break;
+            case Consts.costanti.DIAGONAL_TRBL:
+                insertDiagonalWordTRBL(word, row, col, board);
+                break;
+            case Consts.costanti.DIAGONAL_TLBR:
+                insertDiagonalWordTLBR(word, row, col, board);
+                break;
+            case Consts.costanti.DIAGONAL_BLTR:
+                insertDiagonalWordBLTR(word, row, col, board);
+                break;
+            case Consts.costanti.HORIZONTAL_INVERSE:
+                insertInverseWordHorizontal(word, row, col, board);
+                break;
+            case Consts.costanti.VERTICAL_INVERSE:
+                insertInverseWordVertical(word, row, col, board);
+                break;
+        }
+    }
 }
