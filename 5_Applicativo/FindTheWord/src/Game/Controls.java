@@ -40,29 +40,28 @@ public class Controls {
         };
     }
     //Metodo da fare unico per isInBounds
-    public boolean isInBounds(String word, int row, int col, int orientation, Puzzle board) { 
-                
+    public boolean isInBounds(String word, int row, int col, int orientation, Puzzle board) {   
         if(checkOrientation(orientation) == orientation){
-            return switch (orientation) {
-            case Consts.costanti.HORIZONTAL ->
-                isInBoundsHorizontal(word, col, board);
-            case Consts.costanti.VERTICAL ->
-                isInBoundsVertical(word, row, board);
-            case Consts.costanti.DIAGONAL_TLBR ->
-                isInBoundsDiagonalTLBR(word, col, row, board);
-            case Consts.costanti.DIAGONAL_BLTR ->
-                isInBoundsDiagonalBLTR(word, col, row, board);
-            case Consts.costanti.DIAGONAL_TRBL ->
-                isInBoundsDiagonalTRBL(word, col, row, board);
-            case Consts.costanti.DIAGONAL_BRTL ->
-                isInBoundsDiagonalBRTL(word, col, row, board);
-            case Consts.costanti.HORIZONTAL_INVERSE ->
-                isInBoundsInverseHorizontal(word, col);
-            case Consts.costanti.VERTICAL_INVERSE ->
-                isInBoundsInverseVertical(word, col);
-            default ->
-                false;
-            };
+            switch (orientation) {
+            case Consts.costanti.HORIZONTAL:
+                return isInBoundsHorizontal(word, col, board);
+            case Consts.costanti.VERTICAL:
+                return isInBoundsVertical(word, row, board);
+            case Consts.costanti.DIAGONAL_TLBR:
+                return isInBoundsDiagonalTLBR(word, col, row, board);
+            case Consts.costanti.DIAGONAL_BLTR:
+                return isInBoundsDiagonalBLTR(word, col, row, board);
+            case Consts.costanti.DIAGONAL_TRBL:
+                return isInBoundsDiagonalTRBL(word, col, row, board);
+            case Consts.costanti.DIAGONAL_BRTL:
+                return isInBoundsDiagonalBRTL(word, col, row, board);
+            case Consts.costanti.HORIZONTAL_INVERSE:
+                return isInBoundsInverseHorizontal(word, col);
+            case Consts.costanti.VERTICAL_INVERSE:
+                return isInBoundsInverseVertical(word, row);
+            default :
+                return false;
+            }
         }else{
             return false;
         }

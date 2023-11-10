@@ -85,7 +85,12 @@ public class Puzzle{
     
     public void setWord(String word, int row, int col, int orientation) {
 
-        if(controls.isInBounds(word, row, col, orientation, this)){
+        
+        boolean inBounds = controls.isInBounds(word, row, col, orientation, this);
+        
+        System.out.println("checking "+ word+" at ("+row+";"+col+") -> "+orientation +" len "+word.length() +" inBounds " + inBounds);
+        
+        if(inBounds){
             insertWord.insertWord(word, row, col, orientation, puzzle);
         }
     }

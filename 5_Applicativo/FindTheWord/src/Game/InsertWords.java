@@ -63,10 +63,12 @@ public class InsertWords {
     public void insertInverseWordVertical(String word, int row, int col, char[][] board) {
         int wordLength = word.length();
         for (int i = 0; i < wordLength; i++) {
+            System.out.println("inserting char "+word.charAt(i) +" of "+ word+" at ("+row+";"+col+")  at row " + (row-i));
             board[row - i][col] = word.charAt(i);
         }
     }
     public void insertWord(String word, int row, int col, int orientation, char[][] board){
+        System.out.println("inserting "+ word+" at ("+row+";"+col+") -> "+orientation);
         switch(orientation){
             case Consts.costanti.HORIZONTAL:
                 insertHorizontalWord(word, row, col, board);
