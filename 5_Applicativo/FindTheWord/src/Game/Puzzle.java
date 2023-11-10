@@ -12,7 +12,7 @@ import java.util.Set;
  * @version 15.09.2023
  *
  */
-public class Puzzle{
+public class Puzzle {
 
     private Controls controls;
     private char[][] puzzle;
@@ -20,6 +20,8 @@ public class Puzzle{
     private InsertWords insertWord;
     private int rows;
     private int cols;
+
+    private ArrayList<String> arWords = new ArrayList<String>();
 
     public Puzzle(int rows, int columns) {
         this.cols = columns;
@@ -50,23 +52,22 @@ public class Puzzle{
         }
     }
 
-
-    public char getValue(int row,int col) {
+    public char getValue(int row, int col) {
         return this.puzzle[row][col];
     }
-    
-    public int getRows(){
+
+    public int getRows() {
         return this.rows;
     }
-    
-    public int getColums(){
+
+    public int getColums() {
         return this.cols;
     }
 
     public void setPuzzle(char[][] puzzle) {
         this.puzzle = puzzle;
     }
-    
+
     //METODO PRINCIPALE - POSIZIONA LE PAROLE NELLA GRIGLIA
     /**
      * @param word
@@ -75,34 +76,25 @@ public class Puzzle{
      * @param orientation
      * @param isInverse
      */
-    //TODO (27.10)
-    //Da mettere boolean quando finita pulizia codice!
-    //Da fare metodo unico per checkOrientation
-    //Da fare metodo unico per IsInBounds
-    //Da fare metodo unico per InsertWord
-    
-    
-    
+    //TODO (10.11)
+    //PAROLA SEGRETA
+    public void showWords() {
+
+        System.out.println(arWords.toString());
+
+    }
+
     public void setWord(String word, int row, int col, int orientation) {
 
-        
         boolean inBounds = controls.isInBounds(word, row, col, orientation, this);
-        
-        System.out.println("checking "+ word+" at ("+row+";"+col+") -> "+orientation +" len "+word.length() +" inBounds " + inBounds);
-        
-        if(inBounds){
-            insertWord.insertWord(word, row, col, orientation, puzzle);
+
+        System.out.println("checking " + word + " at (" + row + ";" + col + ") -> " + orientation + " len " + word.length() + " inBounds " + inBounds);
+
+        if (inBounds) {
+            if (controls.isValidOverlapping(word, row, col, orientation, this)) {
+                insertWord.insertWord(word, row, col, orientation, puzzle);
+            }
+            arWords.add(word);
         }
     }
 }
-
-//In seguito sarà da fare in modo che l'utente possa scegliere la grandezza
-
-//FATTI:
-//1. ORIZZONTALE
-//2. VERTICALE
-//3. INVERSO
-//4. ALTO-SINISTRA-BASSO-DESTRA
-//5. BASSO-SINISTRA-ALTO-DESTRA
-//1. BASSO-DESTRA-ALTO-SINISTRA
-//2. ALTO-DESTRA-BASSO-SINISTRA

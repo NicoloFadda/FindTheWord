@@ -46,7 +46,6 @@ public class Main {
             int row = random.nextInt(maxRow);
             int col = random.nextInt(maxCol);
 
-            boolean isInverse = random.nextBoolean();
             int orientation = random.nextInt(-8, -1);
 
             p.setWord(word, row, col, orientation); 
@@ -54,6 +53,6 @@ public class Main {
         //Stampo il puzzle
         p.displayPuzzle();
         
-        
+        p.showWords();
     }
 }
