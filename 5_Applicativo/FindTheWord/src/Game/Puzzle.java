@@ -12,11 +12,6 @@ import java.util.Set;
  * @version 15.09.2023
  *
  */
-//TODO 
-//definire tutte le direzioni --> FATTO
-//rinominare canBe.. in isInBounds generica, non solo H o D o V --> FATTO
-//se insert parola fallisce (per vari motivi) uscire con return NON riprovare a caso dentro la funzione
-//non usare parole random, cominciare con un set controllato con coordinate controllate
 public class Puzzle{
 
     private Controls controls;
@@ -183,8 +178,7 @@ public class Puzzle{
         }
     }
 }
-//1. FARE IN MODO CHE LA PAROLA DA SETTARE SIA RANDOM TRA TUTTE LE LETTERE DEL FILE DELLE PAROLE$
-//1.1 FARE IN MODO CHE DA UN ARRAY STAMPA LE PAROLE
+
 //In seguito sarà da fare in modo che l'utente possa scegliere la grandezza
 
 //FATTI:

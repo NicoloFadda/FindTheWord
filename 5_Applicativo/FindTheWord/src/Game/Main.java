@@ -1,6 +1,11 @@
 package Game;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  *
@@ -10,9 +15,11 @@ import java.util.Random;
  */
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         
         Random random = new Random();
+        //10.11.2023 --> DA FARE IN UN ALTRO FILE
+        ArrayList<String> dictionary = new ArrayList();
         
         int maxRow = 15; //In seguito fare in modo che utente possa scegliere
         int maxCol = 15; //In seguito fare in modo che utente possa scegliere
@@ -22,18 +29,20 @@ public class Main {
         //Riempo il puzzle di trattini
         p.fillPuzzle();
         
-        //Parole di prova (dovrà essere sostituita dalle parole del file)
-        String[] parole = {"FADDA","JACKOPO","CORTI","ENEA","LUIS","CIOBA",
-        "RICHI","FAUL","MARCO"};
+        //10.11.2023 --> DA FARE IN UN ALTRO FILE
+        File dizionario = new File("src/Assets/dizionario.txt");
+        Scanner scanner = new Scanner(dizionario);
         
-
-        //DEBUG OVERLAP
-        //p.setWord("ciao",1,0,-1,false);
-        //p.setWord("ciao",0,0,-2,false);
+        //10.11.2023 --> DA FARE IN UN ALTRO FILE
+        while(scanner.hasNextLine()) {
+            String line = scanner.nextLine();
+            line = line.toUpperCase();
+            dictionary.add(line);
+        }
+        //10.11.2023 --> DA FARE IN UN ALTRO FILE
+        Collections.shuffle(dictionary);
         
-        //DA DECOMMENTARE QUANDO FINITO INCROCI
-        
-        for(String word : parole) {
+        for(String word : dictionary) {
             int row = random.nextInt(maxRow);
             int col = random.nextInt(maxCol);
 
@@ -41,21 +50,8 @@ public class Main {
             int orientation = random.nextInt(-8, -1);
 
             p.setWord(word, row, col, orientation); 
-        
         }
-        
-        
-        //p.setWord("MARCO", 0, 14, -5);
-        //p.setWord("OCA",2,8,-2,false);
-        
-
-
         //Stampo il puzzle
         p.displayPuzzle();
-        
-        //STAMPA DI TUTTE LE PAROLE NELL'ARRAY
-        for(int i = 0; i < parole.length; i++){
-            System.out.println("Parola: " + parole[i]);
-        }
     }
 }

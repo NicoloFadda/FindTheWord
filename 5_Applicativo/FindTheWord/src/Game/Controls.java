@@ -108,23 +108,6 @@ public class Controls {
         return row - wordLength >= 0;
     }
 
-    //8. METODO DI CONTROLLO OVERLAP: FALSE --> OVERLAP | TRUE --> STESSA LETTERA --> NO OVERLAP
-    public boolean DEPRECATED_isOverlapping(String word, int row, int col, int orientation, Puzzle board) {
-        int wordLength = word.length();
-        for (int i = 0; i < wordLength; i++) {
-            //Se non è un trattino (quindi non vuota)
-            if (board.getValue(row, col) != '-') {
-                //Se non è la stessa lettera --> overlap non possibile
-                if (board.getValue(row, col) != word.charAt(i)) {
-                    return false;
-                    //Se è la stessa lettera --> overlap possibile
-                } else {
-                    return true;
-                }
-            }
-        }
-        return true;
-    }
 
     //8. METODO DI CONTROLLO OVERLAP: FALSE --> OVERLAP | TRUE --> STESSA LETTERA --> NO OVERLAP
     public boolean isValidOverlapping(String word, int row, int col, int orientation, Puzzle board) {
@@ -176,4 +159,5 @@ public class Controls {
         }
         return true;
     }
+    
 }
