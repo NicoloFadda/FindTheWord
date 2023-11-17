@@ -6,10 +6,8 @@ package Game;
  * @version 06.10.2023
  *
  */
-public class InsertWords {
-    
-    //DA FARE IL 20.10 IL WHILE PER LE PAROLE CHE SI OVERLAPPANO
-    
+public class InsertWords {  
+    // <editor-fold defaultstate="collapsed" desc="Metodi Insert Direzioni">  
     //1. ALGORITMO ORIZZONTALE
     public void insertHorizontalWord(String word, int row, int col, char[][] board) {
         int wordLength = word.length();
@@ -63,12 +61,14 @@ public class InsertWords {
     public void insertInverseWordVertical(String word, int row, int col, char[][] board) {
         int wordLength = word.length();
         for (int i = 0; i < wordLength; i++) {
-            System.out.println("inserting char "+word.charAt(i) +" of "+ word+" at ("+row+";"+col+")  at row " + (row-i));
+            //System.out.println("inserting char "+word.charAt(i) +" of "+ word+" at ("+row+";"+col+")  at row " + (row-i));
             board[row - i][col] = word.charAt(i);
         }
     }
+    // </editor-fold> 
+    // <editor-fold defaultstate="collapsed" desc="Metodo Insert Generale">  
     public void insertWord(String word, int row, int col, int orientation, char[][] board){
-        System.out.println("inserting "+ word+" at ("+row+";"+col+") -> "+orientation);
+        //System.out.println("inserting "+ word+" at ("+row+";"+col+") -> "+orientation);
         switch(orientation){
             case Consts.costanti.HORIZONTAL:
                 insertHorizontalWord(word, row, col, board);
@@ -96,4 +96,5 @@ public class InsertWords {
                 break;
         }
     }
+    // </editor-fold>
 }

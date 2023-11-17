@@ -11,12 +11,15 @@ import java.util.Random;
  */
 public class Controls {
 
-    //Metodo da fare unico per orientation
-    public int checkFinalOrientation(){
-        return 0;
+    // <editor-fold defaultstate="collapsed" desc="Variabili varie">    
+    private int actualWordLength;
+    // </editor-fold> 
+    // <editor-fold defaultstate="collapsed" desc="Metodi di controllo parola segreta">    
+    public int getActualWordLength(){
+        return actualWordLength;
     }
-    
-    //NON VIENE MAI USATO
+    // </editor-fold> 
+    // <editor-fold defaultstate="collapsed" desc="Metodo di controllo orientamento parole">     
     public int checkOrientation(int orientation) {
         return switch (orientation) {
             case Consts.costanti.HORIZONTAL ->
@@ -39,7 +42,8 @@ public class Controls {
                 0;
         };
     }
-    //Metodo da fare unico per isInBounds
+    // </editor-fold>
+    // <editor-fold defaultstate="collapsed" desc="Metodo Generale di controllo delle parole (isInBounds)"> 
     public boolean isInBounds(String word, int row, int col, int orientation, Puzzle board) {   
         if(checkOrientation(orientation) == orientation){
             switch (orientation) {
@@ -66,7 +70,8 @@ public class Controls {
             return false;
         }
     }
-    
+    // </editor-fold> 
+    // <editor-fold defaultstate="collapsed" desc="Metodi singoli controllo direzioni (isInBounds)">  
     //1. METODO DI CONTROLLO ORIZZONTALE
     public boolean isInBoundsHorizontal(String word, int col, Puzzle board) {
         int maxCol = board.getColums();
@@ -106,7 +111,6 @@ public class Controls {
     //4. METODO DI CONTROLLO DIAGONALE BOTTOM-RIGHT-TOP-LEFT 
 
     public boolean isInBoundsDiagonalBRTL(String word, int col, int row, Puzzle board) { //FUNZIONA
-        int maxCol = board.getColums();
         int wordLength = word.length();
         if(row + 1 - wordLength >= 0 && col >= wordLength - 1){
             return true;
@@ -158,23 +162,21 @@ public class Controls {
             return false;
         }
     }
-
-
-    //8. METODO DI CONTROLLO OVERLAP: FALSE --> OVERLAP | TRUE --> STESSA LETTERA --> NO OVERLAP
+// </editor-fold> 
+    // <editor-fold defaultstate="collapsed" desc="Metodo di controllo OVERLAP">     
+    //8. METODO DI CONTROLLO OVERLAP
     public boolean isValidOverlapping(String word, int row, int col, int orientation, Puzzle board) {
         int wordLength = word.length();
-        int originalRow = row;
-        int originalCol = col;
+        actualWordLength = wordLength;
         for (int i = 0; i < wordLength; i++) {
-            //Se non è un trattino (quindi non vuota)
-
             char wordChar = word.charAt(i);
             char boardChar = board.getValue(row, col);
-            //if (board.getValue(row, col) == '-' || board.getValue(row, col) == word.charAt(i)) {
-            if (boardChar == '-' || boardChar == wordChar) {
+            if (boardChar == '-') {
                 //all good
+            }else if(boardChar == wordChar){
+                actualWordLength--;
             } else {
-                System.out.println("La parola " + word.toUpperCase() + " @("+originalRow+";"+originalCol+")" + " orient " + orientation + " charIndex "+ i +" conflitto con " + boardChar + "@("+row+";"+col+")");
+                //System.out.println("La parola " + word.toUpperCase() + " @("+originalRow+";"+originalCol+")" + " orient " + orientation + " charIndex "+ i +" conflitto con " + boardChar + "@("+row+";"+col+")");
                 return false;
             }
 
@@ -210,5 +212,6 @@ public class Controls {
         }
         return true;
     }
+    // </editor-fold> 
     
 }

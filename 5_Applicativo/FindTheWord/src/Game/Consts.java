@@ -7,6 +7,7 @@ package Game;
  *
  */
 class Consts {
+    // <editor-fold defaultstate="collapsed" desc="Costanti">     
     static class costanti{
     static final int HORIZONTAL = -1;
     static final int VERTICAL = -2;
@@ -16,6 +17,7 @@ class Consts {
     static final int DIAGONAL_BRTL = -6;
     static final int HORIZONTAL_INVERSE = -7;
     static final int VERTICAL_INVERSE = -8;
+    static final int MIN_WORD_LENGTH = 2;
     }
-
+    // </editor-fold> 
 }
