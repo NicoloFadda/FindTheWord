@@ -16,28 +16,17 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) throws FileNotFoundException {
-        
-        Random random = new Random();
+
         int maxRow = 10;
         int maxCol = 10;
+        
         boolean modBambini = false;
+        
         ArrayList<String> dictionary = new ArrayList();
 
         Puzzle p = new Puzzle(maxRow, maxCol);
 
-        p.fillPuzzle();
-
-        p.readArList(dictionary);
-
-        Collections.shuffle(dictionary);
-
-        p.setWordsWhileYouCan(dictionary);
-        
-        p.findSecretWordInFile(dictionary);
-        
-        p.insertSecretWord(p.getSecretWord());
-        
-        p.displayPuzzle();
+        p.displayPuzzle(dictionary);
         
         System.out.println("");
         System.out.println("Celle rimanenti per la parola segreta: " + p.getRemainingCells());

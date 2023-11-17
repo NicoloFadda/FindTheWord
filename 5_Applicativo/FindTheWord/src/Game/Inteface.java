@@ -7,21 +7,43 @@ package Game;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author nicolo.fadda
  */
 public class Inteface extends javax.swing.JFrame {
-
+    private int maxRow = 10;
+    private int maxCol = 10;
+    private int grandezza = 10;
+    GridModel gridModel;
+    ArrayList<String> dictionary = new ArrayList();
+    Puzzle p = new Puzzle(maxRow, maxCol);
     /**
      * Creates new form Inteface
      */
-    public Inteface() {
+    public Inteface() throws FileNotFoundException {
         initComponents();
+        //set del modello della table
+        gridModel = new GridModel(grandezza);
+        jTable1.setModel(gridModel);
+        insertInJTable();
     }
-
+    public void insertInJTable() throws FileNotFoundException{
+        p.displayPuzzle(dictionary);
+        for (int i = 0; i < grandezza; i++) {
+            for (int j = 0; j < grandezza; j++) {
+               gridModel.insertGrid(p.getValue(i, j), i, j);
+            }
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,6 +56,10 @@ public class Inteface extends javax.swing.JFrame {
         TabPanel = new javax.swing.JTabbedPane();
         GamePanel = new javax.swing.JPanel();
         AboutText = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
         SettingsPanel = new javax.swing.JPanel();
         DizionarioLabel = new javax.swing.JLabel();
         DifficoltaLabel = new javax.swing.JLabel();
@@ -51,21 +77,44 @@ public class Inteface extends javax.swing.JFrame {
 
         AboutText.setText("FindTheWord");
 
+        jTable1.setBackground(new java.awt.Color(255, 255, 255));
+        jTable1.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(255, 0, 255)));
+        jTable1.setForeground(new java.awt.Color(0, 0, 0));
+        jTable1.setName("jTableGrid"); // NOI18N
+        jScrollPane1.setViewportView(jTable1);
+
+        jTable2.setBackground(new java.awt.Color(255, 255, 255));
+        jTable2.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(255, 0, 255)));
+        jTable2.setForeground(new java.awt.Color(0, 0, 0));
+        jTable2.setName("jTableGrid"); // NOI18N
+        jScrollPane2.setViewportView(jTable2);
+
         javax.swing.GroupLayout GamePanelLayout = new javax.swing.GroupLayout(GamePanel);
         GamePanel.setLayout(GamePanelLayout);
         GamePanelLayout.setHorizontalGroup(
             GamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(GamePanelLayout.createSequentialGroup()
-                .addGap(411, 411, 411)
-                .addComponent(AboutText)
-                .addContainerGap(424, Short.MAX_VALUE))
+                .addGap(0, 6, Short.MAX_VALUE)
+                .addGroup(GamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GamePanelLayout.createSequentialGroup()
+                        .addComponent(AboutText, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(374, 374, 374))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GamePanelLayout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())))
         );
         GamePanelLayout.setVerticalGroup(
             GamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(GamePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(AboutText)
-                .addContainerGap(567, Short.MAX_VALUE))
+                .addGap(12, 12, 12)
+                .addComponent(AboutText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(26, 26, 26)
+                .addGroup(GamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
+                .addGap(71, 71, 71))
         );
 
         TabPanel.addTab("Game", GamePanel);
@@ -134,7 +183,7 @@ public class Inteface extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SettingsPanelLayout.createSequentialGroup()
                         .addGap(182, 182, 182)
                         .addComponent(FontLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 311, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 356, Short.MAX_VALUE)
                         .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SettingsPanelLayout.createSequentialGroup()
                                 .addComponent(Stampa1Label)
@@ -207,13 +256,13 @@ public class Inteface extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(TabPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
+                .addComponent(TabPanel)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void GeneraButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GeneraButtonActionPerformed
         //AGGIUNGERE EVENTO CHE AL CLICK FA ANDARE SULLA PAGINA DI GAME
     }//GEN-LAST:event_GeneraButtonActionPerformed
@@ -284,7 +333,11 @@ public class Inteface extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Inteface().setVisible(true);
+                try {
+                    new Inteface().setVisible(true);
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(Inteface.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -305,5 +358,11 @@ public class Inteface extends javax.swing.JFrame {
     private javax.swing.JButton Stampa1Label;
     private javax.swing.JButton Stampa2Label;
     private javax.swing.JTabbedPane TabPanel;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     // End of variables declaration//GEN-END:variables
+    
 }
+

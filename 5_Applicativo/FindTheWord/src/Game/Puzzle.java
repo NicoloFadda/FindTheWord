@@ -3,6 +3,7 @@ package Game;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
@@ -54,7 +55,19 @@ public class Puzzle {
             }
         }
     }
-    public void displayPuzzle() {
+    public void displayPuzzle(ArrayList<String> dictionary) throws FileNotFoundException {
+        fillPuzzle();
+
+        readArList(dictionary);
+
+        Collections.shuffle(dictionary);
+
+        setWordsWhileYouCan(dictionary);
+        
+        findSecretWordInFile(dictionary);
+        
+        insertSecretWord(getSecretWord());
+        
         for (int i = 0; i < puzzle.length; i++) {
             for (int j = 0; j < puzzle[i].length; j++) {
                 System.out.print(puzzle[i][j] + " ");
