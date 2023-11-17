@@ -65,7 +65,7 @@ public class Inteface extends javax.swing.JFrame {
             .addGroup(GamePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(AboutText)
-                .addContainerGap(579, Short.MAX_VALUE))
+                .addContainerGap(567, Short.MAX_VALUE))
         );
 
         TabPanel.addTab("Game", GamePanel);
@@ -180,7 +180,7 @@ public class Inteface extends javax.swing.JFrame {
                     .addComponent(FormatoStampaLabel)
                     .addComponent(Stampa1Label)
                     .addComponent(Stampa2Label))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                 .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SettingsPanelLayout.createSequentialGroup()
                         .addComponent(FontLabel)
@@ -205,7 +205,10 @@ public class Inteface extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(TabPanel, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(TabPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
