@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -15,27 +17,33 @@ import java.util.Scanner;
  */
 public class Main {
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args){
 
         int maxRow = 10;
         int maxCol = 10;
         
         boolean modBambini = false;
-        
-        ArrayList<String> dictionary = new ArrayList();
 
         Puzzle p = new Puzzle(maxRow, maxCol);
 
-        p.displayPuzzle(dictionary);
-        
-        System.out.println("");
-        System.out.println("Celle rimanenti per la parola segreta: " + p.getRemainingCells());
-        System.out.println("Parole totali: " + p.getArWordsSize());
-        if(!modBambini){
-            System.out.println("Parola Segreta: " + p.getSecretWord());
+        try {
+            p.displayPuzzle();
+        } catch (FileNotFoundException ex) {
+            System.out.println("Errore di File non trovato");
         }
-        System.out.print("Parole: ");
-        p.showWords();
+        if (p.getDictionary() != null && !p.getDictionary().isEmpty()) {
+            System.out.println("");
+            System.out.println("Celle rimanenti per la parola segreta: " + p.getRemainingCells());
+            System.out.println("Parole totali: " + p.getArWordsSize());
+            if (!modBambini) {
+                System.out.println("Parola Segreta: " + p.getSecretWord());
+            }
+            System.out.print("Parole: ");
+            p.showWords();
+        }else{
+            System.out.println("Errore nel dizionario nullo o vuoto");
+        }
+
         
     }
 }

@@ -55,16 +55,17 @@ public class Puzzle {
             }
         }
     }
-    public void displayPuzzle(ArrayList<String> dictionary) throws FileNotFoundException {
+    //togliere arrayList e usarlo direttamente in Puzzle
+    public void displayPuzzle() throws FileNotFoundException{
         fillPuzzle();
 
-        readArList(dictionary);
+        readArList();
 
-        Collections.shuffle(dictionary);
+        Collections.shuffle(this.dictionary);
 
-        setWordsWhileYouCan(dictionary);
+        setWordsWhileYouCan();
         
-        findSecretWordInFile(dictionary);
+        findSecretWordInFile();
         
         insertSecretWord(getSecretWord());
         
@@ -92,8 +93,8 @@ public class Puzzle {
         }
     }
 
-    public void findSecretWordInFile(ArrayList<String> dictionary) {
-        for (String word : dictionary) {
+    public void findSecretWordInFile() {
+        for (String word : this.dictionary) {
             //Cerco una parola all'interno del dizionario che abbia la stessa
             //lunghezza della parola segreta
             if (word.length() == getRemainingCells()) {
@@ -104,13 +105,13 @@ public class Puzzle {
         }
     }
 
-    public void readArList(ArrayList<String> dictionary) throws FileNotFoundException {
+    public void readArList() throws FileNotFoundException {
         File dizionario = new File("src/Assets/dizionario.txt");
         Scanner scanner = new Scanner(dizionario);
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             line = line.toUpperCase();
-            dictionary.add(line);
+            this.dictionary.add(line);
         }
     }
 
@@ -157,6 +158,23 @@ public class Puzzle {
     public String getSecretWord() {
         return secretWord;
     }
+
+    public ArrayList<String> getDictionary() {
+        return dictionary;
+    }
+
+    public char[][] getPuzzle() {
+        return puzzle;
+    }
+
+    public int getMaxRow() {
+        return maxRow;
+    }
+
+    public int getMaxCol() {
+        return maxCol;
+    }
+    
     // </editor-fold> 
     // <editor-fold defaultstate="collapsed" desc="Metodi setWord">   
     public void setWord(String word, int row, int col, int orientation) {
@@ -173,12 +191,12 @@ public class Puzzle {
             }
         }
     }
-    public void setWordsWhileYouCan(ArrayList<String> dictionary) {
+    public void setWordsWhileYouCan() {
         while (getRemainingCells() > getSecretWordLength()) {
-            int randomIndex = random.nextInt(dictionary.size());
+            int randomIndex = random.nextInt(this.dictionary.size());
 
             // Restituisce la parola corrispondente all'indice casuale
-            String word = dictionary.get(randomIndex);
+            String word = this.dictionary.get(randomIndex);
             int row = random.nextInt(maxRow);
             int col = random.nextInt(maxCol);
 
