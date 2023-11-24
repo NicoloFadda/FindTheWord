@@ -12,29 +12,35 @@ import javax.swing.table.AbstractTableModel;
  * @author nicolo.fadda
  */
 public class GridModel extends AbstractTableModel {
+    private char[][] puzzleData;
 
-    char[][] matrix;
-
-    GridModel(int grandezza) {
-        matrix = new char[grandezza][grandezza];
+    public GridModel(int grandezzaCampo) {
+        this.puzzleData = new char[grandezzaCampo][grandezzaCampo];
     }
 
-    
-    public void insertGrid(char carattere, int row, int col){
-        matrix[row][col] = carattere;
-    }
     @Override
     public int getRowCount() {
-        return matrix[0].length;
-    }
-
-    @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
-        return null;
+        return puzzleData.length;
     }
 
     @Override
     public int getColumnCount() {
-        return 0;
+        return puzzleData[0].length;
+    }
+
+    @Override
+    public Object getValueAt(int row, int column) {
+        return puzzleData[row][column];
+    }
+
+    @Override
+    public void setValueAt(Object value, int row, int column) {
+        puzzleData[row][column] = (char)value;
+        fireTableCellUpdated(row, column);
+    }
+
+    @Override
+    public boolean isCellEditable(int row, int column) {
+        return false;
     }
 }

@@ -9,10 +9,13 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
@@ -23,16 +26,28 @@ import javax.swing.table.TableModel;
  */
 public class MainGame extends javax.swing.JFrame {
     //da fare modificabile da textbox
-    private int grandezza = 10;
-    TableModel modello;
-    Puzzle p;
+    private int grandezza = 12;
+    private Puzzle p;
     /**
      * Creates new form Inteface
      */
     public MainGame() {
         initComponents();
         p = new Puzzle(grandezza, grandezza);
- 
+        jTableGrid.setBackground(Color.WHITE);
+        jTableGrid.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, null, new java.awt.Color(0, 0, 0), null, null));
+        jTableGrid.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        jTableWords.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        jTableGrid.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
+        jTableWords.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
+        jTableGrid.setEditingColumn(0);
+        jTableGrid.setEditingRow(0);
+        jTableWords.setEditingColumn(0);
+        jTableWords.setEditingRow(0);
+        jTableGrid.setGridColor(Color.white);
+        jTableGrid.setName("JTableGame"); // NOI18N
+        jLabelSecretWord.setVisible(false);
+        
     }    
     /**
      * This method is called from within the constructor to initialize the form.
@@ -50,6 +65,7 @@ public class MainGame extends javax.swing.JFrame {
         jTableWords = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableGrid = new javax.swing.JTable();
+        jLabelSecretWord = new javax.swing.JLabel();
         SettingsPanel = new javax.swing.JPanel();
         DizionarioLabel = new javax.swing.JLabel();
         DifficoltaLabel = new javax.swing.JLabel();
@@ -68,16 +84,19 @@ public class MainGame extends javax.swing.JFrame {
         AboutText.setText("FindTheWord");
 
         jTableWords.setBackground(new java.awt.Color(255, 255, 255));
-        jTableWords.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(255, 0, 255)));
+        jTableWords.setBorder(new javax.swing.border.MatteBorder(null));
         jTableWords.setForeground(new java.awt.Color(0, 0, 0));
         jTableWords.setName("jTableGrid"); // NOI18N
         jScrollPane1.setViewportView(jTableWords);
 
         jTableGrid.setBackground(new java.awt.Color(255, 255, 255));
-        jTableGrid.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 1, 1, new java.awt.Color(255, 0, 255)));
+        jTableGrid.setBorder(new javax.swing.border.MatteBorder(null));
         jTableGrid.setForeground(new java.awt.Color(0, 0, 0));
         jTableGrid.setName("jTableGrid"); // NOI18N
         jScrollPane2.setViewportView(jTableGrid);
+
+        jLabelSecretWord.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
+        jLabelSecretWord.setText("jLabel1");
 
         javax.swing.GroupLayout GamePanelLayout = new javax.swing.GroupLayout(GamePanel);
         GamePanel.setLayout(GamePanelLayout);
@@ -87,23 +106,28 @@ public class MainGame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(AboutText, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(374, 374, 374))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GamePanelLayout.createSequentialGroup()
+            .addGroup(GamePanelLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(GamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelSecretWord, javax.swing.GroupLayout.PREFERRED_SIZE, 931, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(GamePanelLayout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         GamePanelLayout.setVerticalGroup(
             GamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(GamePanelLayout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addComponent(AboutText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(AboutText, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                 .addGap(26, 26, 26)
                 .addGroup(GamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
-                .addGap(71, 71, 71))
+                .addGap(18, 18, 18)
+                .addComponent(jLabelSecretWord, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         TabPanel.addTab("Game", GamePanel);
@@ -251,18 +275,39 @@ public class MainGame extends javax.swing.JFrame {
         } catch (FileNotFoundException ex) {
             System.out.println("errore file non trovato");
         }
-        DefaultTableModel dataModel = new DefaultTableModel(p.getRows(),p.getColums());
+        //Creo modello della tabella di sinistra
+        GridModel dataModel = new GridModel(grandezza);
+        //Creo modello della tabella di destra
+        WordsTableModel tableModel = new WordsTableModel(p.getArWordsSize(), 4);
+        //Assegno modello della tabella di sinistra
+        jTableWords.setModel(tableModel);
+        //Assegno modello della tabella di destra
         jTableGrid.setModel(dataModel);
+        //Assegno altezza della tabella di sinistra
+        jTableGrid.setRowHeight(28);
+        //Tolgo gli header della tabella
+        jTableGrid.getTableHeader().setVisible(false);
+        jTableWords.getTableHeader().setVisible(false);
+        //salvo la variabile che contiene tutto il puzzle
         char[][] puz = p.getPuzzle();
-        
+        //Inserimento griglia di caratteri (tabella di sinistra)
         for (int i = 0; i < puz.length; i++) {
             Object rowData[] = new Object[puz[i].length];
             for (int j = 0; j < puz[i].length; j++) {
                 rowData[i] = puz[i][j];
+                //infine setto il valore attuale nella griglia della tabella
+                jTableGrid.setValueAt(rowData[i], i, j);
             }
-            ((DefaultTableModel)jTableGrid.getModel()).addRow(rowData);
+                
+        }  
+        ArrayList<String> arWord = p.getArWords();
+        Collections.sort(arWord);
+        for (int i = 0; i < arWord.size(); i++) {
+            jTableWords.setValueAt(arWord.get(i), i, 0);
+
         }
-       
+        jLabelSecretWord.setVisible(true);
+        jLabelSecretWord.setText("La parola segreta è: " + p.getSecretWord());
     }//GEN-LAST:event_GeneraButtonActionPerformed
 
     private void Stampa1LabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Stampa1LabelActionPerformed
@@ -353,6 +398,7 @@ public class MainGame extends javax.swing.JFrame {
     private javax.swing.JButton Stampa1Label;
     private javax.swing.JButton Stampa2Label;
     private javax.swing.JTabbedPane TabPanel;
+    private javax.swing.JLabel jLabelSecretWord;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTableGrid;

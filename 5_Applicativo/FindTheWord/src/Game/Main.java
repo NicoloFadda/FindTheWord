@@ -2,6 +2,7 @@ package Game;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -17,7 +18,7 @@ import java.util.logging.Logger;
  */
 public class Main {
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException {
 
         int maxRow = 10;
         int maxCol = 10;
@@ -25,7 +26,6 @@ public class Main {
         boolean modBambini = false;
 
         Puzzle p = new Puzzle(maxRow, maxCol);
-
         try {
             p.displayPuzzle();
         } catch (FileNotFoundException ex) {

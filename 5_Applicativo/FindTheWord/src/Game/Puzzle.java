@@ -1,7 +1,12 @@
 package Game;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -26,6 +31,7 @@ public class Puzzle {
     private int cols;
     private int remainingCellCounter;
     private int secretWordLength;
+    private String[] words;
     private String secretWord;
     private ArrayList<String> arWords = new ArrayList<String>();
     private ArrayList<String> dictionary = new ArrayList();
@@ -104,20 +110,58 @@ public class Puzzle {
             }
         }
     }
+    //metodo per purificare il dizionario da doppioni
+    public void removeDuplicatesFromFile() throws FileNotFoundException, IOException{
+        File inputFile = new File("src/Assets/dizionario.txt");
+        File outputFile = new File("src/Assets/dizionario.txt");
+
+        BufferedReader reader = new BufferedReader(new FileReader(inputFile));
+        BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile));
+
+        Set<String> words = new HashSet<String>();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] lineWords = line.split("\\s+");
+            for (String word : lineWords) {
+                if (words.add(word)) {
+                    writer.write(word + " ");
+                }
+            }
+            writer.newLine();
+        }
+
+        reader.close();
+        writer.close();
+    }
 
     public void readArList() throws FileNotFoundException {
-        File dizionario = new File("src/Assets/dizionario.txt");
+        File dizionario = new File("src/Assets/Dizionario.txt");
         Scanner scanner = new Scanner(dizionario);
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             line = line.toUpperCase();
+            line = purifyWord(line);
             this.dictionary.add(line);
         }
     }
 
     public void showWords() {
-        System.out.println(arWords.toString());
+        Collections.sort(this.arWords, String.CASE_INSENSITIVE_ORDER);
+        for (int i = 0; i < this.arWords.size(); i++) {
+            System.out.println(this.arWords.get(i));
+        }
     }  
+    public String purifyWord(String word) {
+        try {
+            word = word.replace("à", "a");
+            word = word.replace("é", "e");
+            word = word.replace("è", "e");
+            word = word.replace("ì", "i");
+            word = word.replace("ù", "u");
+            word = word.replace("ò", "o");
+        } catch (Exception e) {}
+        return word;
+    }
 // </editor-fold> 
     // <editor-fold defaultstate="collapsed" desc="Getter & Setter"> 
     public char getValue(int row, int col) {
@@ -143,8 +187,8 @@ public class Puzzle {
     public void setPuzzle(char[][] puzzle) {
         this.puzzle = puzzle;
     }
-    public String getArWords() {
-        return this.arWords.toString();
+    public ArrayList<String> getArWords() {
+        return this.arWords;
     }
 
     public int getArWordsSize() {
@@ -174,7 +218,9 @@ public class Puzzle {
     public int getMaxCol() {
         return maxCol;
     }
+
     
+
     // </editor-fold> 
     // <editor-fold defaultstate="collapsed" desc="Metodi setWord">   
     public void setWord(String word, int row, int col, int orientation) {
