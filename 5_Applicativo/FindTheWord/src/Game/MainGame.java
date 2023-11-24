@@ -5,15 +5,19 @@
 package Game;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
@@ -311,11 +315,39 @@ public class MainGame extends javax.swing.JFrame {
     }//GEN-LAST:event_GeneraButtonActionPerformed
 
     private void Stampa1LabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Stampa1LabelActionPerformed
-        //AGGIUNGERE EVENTO CHE AL CLICK SALVA IL FILE IN FORMATO PNG
+        BufferedImage bImg = new BufferedImage(this.getWidth(), this.getHeight() - 200, BufferedImage.TYPE_INT_RGB);
+        Graphics2D cg = bImg.createGraphics();
+        this.paintAll(cg);
+        try {
+            if (ImageIO.write(bImg, "png", new File("src/Assets/Stampe/FindTheWord.png"))) {
+                System.out.println("-- saved");
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            System.out.println("Errore nella stampa");
+        }
     }//GEN-LAST:event_Stampa1LabelActionPerformed
 
     private void Stampa2LabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Stampa2LabelActionPerformed
-        //AGGIUNGERE EVENTO CHE AL CLICK SALVA IL FILE IN FORMATO TXT
+        try {
+            char[][] puz = p.getPuzzle();
+            FileWriter myWriter = new FileWriter("crucipuzzle.txt");
+            for (int i = 0; i < puz.length; i++) {
+                Object rowData[] = new Object[puz[i].length];
+                for (int j = 0; j < puz[i].length; j++) {
+                    rowData[i] = puz[i][j];
+                    myWriter.write((String) rowData[i] + " ");
+                }
+                myWriter.write("\n\r");
+            }
+
+            myWriter.close();
+            System.out.println("Successfully wrote in the file.");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_Stampa2LabelActionPerformed
 
     private void DizionarioFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DizionarioFileActionPerformed
