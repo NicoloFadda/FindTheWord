@@ -17,7 +17,7 @@ class Consts {
     static final int DIAGONAL_BRTL = -6;
     static final int HORIZONTAL_INVERSE = -7;
     static final int VERTICAL_INVERSE = -8;
-    static final int MIN_WORD_LENGTH = 2;
+    static final int MIN_WORD_LENGTH = 3;
     }
     // </editor-fold> 
 }

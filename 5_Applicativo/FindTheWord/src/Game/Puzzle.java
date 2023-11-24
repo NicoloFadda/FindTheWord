@@ -159,6 +159,9 @@ public class Puzzle {
             word = word.replace("ì", "i");
             word = word.replace("ù", "u");
             word = word.replace("ò", "o");
+            word = word.replace("'", "");
+            word = word.replace("`","");
+            word = word.replace("^", "");
         } catch (Exception e) {}
         return word;
     }
