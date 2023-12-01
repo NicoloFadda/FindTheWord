@@ -5,21 +5,35 @@
 package Game;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableModel;
@@ -30,8 +44,10 @@ import javax.swing.table.TableModel;
  */
 public class MainGame extends javax.swing.JFrame {
     //da fare modificabile da textbox
-    private int grandezza = 12;
+    private int grandezza = 10;
     private Puzzle p;
+    private String selectedFilePath;
+    private ArrayList<String> userDictionary;
     /**
      * Creates new form Inteface
      */
@@ -40,8 +56,8 @@ public class MainGame extends javax.swing.JFrame {
         p = new Puzzle(grandezza, grandezza);
         jTableGrid.setBackground(Color.WHITE);
         jTableGrid.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, null, new java.awt.Color(0, 0, 0), null, null));
-        jTableGrid.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        jTableWords.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+        jTableGrid.setFont(new java.awt.Font("Monospaced", 0, 20)); // NOI18N
+        jTableWords.setFont(new java.awt.Font("Monospaced", 0, 20)); // NOI18N
         jTableGrid.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
         jTableWords.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
         jTableGrid.setEditingColumn(0);
@@ -51,6 +67,9 @@ public class MainGame extends javax.swing.JFrame {
         jTableGrid.setGridColor(Color.white);
         jTableGrid.setName("JTableGame"); // NOI18N
         jLabelSecretWord.setVisible(false);
+        String[] monospacedFonts = getMonospacedFonts();
+        DefaultComboBoxModel<String> fontModel = new DefaultComboBoxModel<>(monospacedFonts);
+        jComboBox1.setModel(fontModel);
         
     }    
     /**
@@ -70,18 +89,15 @@ public class MainGame extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableGrid = new javax.swing.JTable();
         jLabelSecretWord = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        TXT = new javax.swing.JButton();
         SettingsPanel = new javax.swing.JPanel();
-        DizionarioLabel = new javax.swing.JLabel();
         DifficoltaLabel = new javax.swing.JLabel();
-        FormatoStampaLabel = new javax.swing.JLabel();
         FontLabel = new javax.swing.JLabel();
         DifficoltaToggleONOFF = new javax.swing.JToggleButton();
-        Stampa2Label = new javax.swing.JButton();
-        Stampa1Label = new javax.swing.JButton();
-        FontScrollPanel = new javax.swing.JScrollPane();
-        FontScelta = new javax.swing.JList<>();
         GeneraButton = new javax.swing.JButton();
-        DizionarioFile = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jButtonApplica = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -89,12 +105,14 @@ public class MainGame extends javax.swing.JFrame {
 
         jTableWords.setBackground(new java.awt.Color(255, 255, 255));
         jTableWords.setBorder(new javax.swing.border.MatteBorder(null));
+        jTableWords.setFont(new java.awt.Font("Segoe UI", 0, 25)); // NOI18N
         jTableWords.setForeground(new java.awt.Color(0, 0, 0));
         jTableWords.setName("jTableGrid"); // NOI18N
         jScrollPane1.setViewportView(jTableWords);
 
         jTableGrid.setBackground(new java.awt.Color(255, 255, 255));
         jTableGrid.setBorder(new javax.swing.border.MatteBorder(null));
+        jTableGrid.setFont(new java.awt.Font("Segoe UI", 0, 25)); // NOI18N
         jTableGrid.setForeground(new java.awt.Color(0, 0, 0));
         jTableGrid.setName("jTableGrid"); // NOI18N
         jScrollPane2.setViewportView(jTableGrid);
@@ -102,154 +120,111 @@ public class MainGame extends javax.swing.JFrame {
         jLabelSecretWord.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
         jLabelSecretWord.setText("jLabel1");
 
+        jButton1.setText("PNG");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        TXT.setText("TXT");
+        TXT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TXTActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout GamePanelLayout = new javax.swing.GroupLayout(GamePanel);
         GamePanel.setLayout(GamePanelLayout);
         GamePanelLayout.setHorizontalGroup(
             GamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GamePanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(AboutText, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(374, 374, 374))
             .addGroup(GamePanelLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
                 .addGroup(GamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelSecretWord, javax.swing.GroupLayout.PREFERRED_SIZE, 931, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(GamePanelLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(GamePanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabelSecretWord, javax.swing.GroupLayout.PREFERRED_SIZE, 931, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GamePanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(GamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GamePanelLayout.createSequentialGroup()
+                        .addComponent(AboutText, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(374, 374, 374))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, GamePanelLayout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(TXT)
+                        .addGap(84, 84, 84))))
         );
         GamePanelLayout.setVerticalGroup(
             GamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(GamePanelLayout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addComponent(AboutText, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                .addGap(26, 26, 26)
+                .addComponent(AboutText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(GamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
+                    .addComponent(jScrollPane2)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 464, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabelSecretWord, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addGroup(GamePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TXT, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(14, 14, 14))
         );
 
         TabPanel.addTab("Game", GamePanel);
 
-        DizionarioLabel.setText("Dizionario");
+        SettingsPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        DifficoltaLabel.setFont(new java.awt.Font("Segoe UI", 0, 35)); // NOI18N
         DifficoltaLabel.setText("Difficoltà Bambini");
+        SettingsPanel.add(DifficoltaLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 110, -1, -1));
 
-        FormatoStampaLabel.setText("Formato Stampa");
-
+        FontLabel.setFont(new java.awt.Font("Segoe UI", 0, 35)); // NOI18N
         FontLabel.setText("Font");
+        SettingsPanel.add(FontLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 230, -1, -1));
 
+        DifficoltaToggleONOFF.setFont(new java.awt.Font("Segoe UI", 0, 25)); // NOI18N
         DifficoltaToggleONOFF.setText("OFF");
         DifficoltaToggleONOFF.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 DifficoltaToggleONOFFItemStateChanged(evt);
             }
         });
-
-        Stampa2Label.setText("TXT");
-        Stampa2Label.addActionListener(new java.awt.event.ActionListener() {
+        DifficoltaToggleONOFF.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Stampa2LabelActionPerformed(evt);
+                DifficoltaToggleONOFFActionPerformed(evt);
             }
         });
+        SettingsPanel.add(DifficoltaToggleONOFF, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 120, -1, -1));
 
-        Stampa1Label.setText("PNG");
-        Stampa1Label.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Stampa1LabelActionPerformed(evt);
-            }
-        });
-
-        FontScelta.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        FontScelta.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "FONT 1", "FONT 2", "FONT 3", "FONT 4", "FONT 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        FontScelta.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        FontScelta.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        FontScelta.setName(""); // NOI18N
-        FontScrollPanel.setViewportView(FontScelta);
-
+        GeneraButton.setFont(new java.awt.Font("Segoe UI", 0, 40)); // NOI18N
         GeneraButton.setText("GENERA!");
         GeneraButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 GeneraButtonActionPerformed(evt);
             }
         });
+        SettingsPanel.add(GeneraButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 440, 270, 120));
 
-        DizionarioFile.setText("Seleziona File...");
-        DizionarioFile.addActionListener(new java.awt.event.ActionListener() {
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        SettingsPanel.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 240, 130, 40));
+
+        jButtonApplica.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jButtonApplica.setText("Applica Font");
+        jButtonApplica.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DizionarioFileActionPerformed(evt);
+                jButtonApplicaActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout SettingsPanelLayout = new javax.swing.GroupLayout(SettingsPanel);
-        SettingsPanel.setLayout(SettingsPanelLayout);
-        SettingsPanelLayout.setHorizontalGroup(
-            SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(SettingsPanelLayout.createSequentialGroup()
-                .addGap(333, 333, 333)
-                .addComponent(GeneraButton, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(SettingsPanelLayout.createSequentialGroup()
-                .addGap(208, 208, 208)
-                .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(SettingsPanelLayout.createSequentialGroup()
-                        .addComponent(FontLabel)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(SettingsPanelLayout.createSequentialGroup()
-                        .addComponent(FormatoStampaLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 326, Short.MAX_VALUE)
-                        .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SettingsPanelLayout.createSequentialGroup()
-                                .addComponent(Stampa1Label)
-                                .addGap(18, 18, 18)
-                                .addComponent(Stampa2Label))
-                            .addComponent(FontScrollPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(181, 181, 181))
-                    .addGroup(SettingsPanelLayout.createSequentialGroup()
-                        .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(SettingsPanelLayout.createSequentialGroup()
-                                .addComponent(DifficoltaLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(DifficoltaToggleONOFF))
-                            .addGroup(SettingsPanelLayout.createSequentialGroup()
-                                .addComponent(DizionarioLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(DizionarioFile)))
-                        .addGap(208, 208, 208))))
-        );
-        SettingsPanelLayout.setVerticalGroup(
-            SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(SettingsPanelLayout.createSequentialGroup()
-                .addGap(57, 57, 57)
-                .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(DizionarioLabel)
-                    .addComponent(DizionarioFile))
-                .addGap(84, 84, 84)
-                .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(DifficoltaLabel)
-                    .addComponent(DifficoltaToggleONOFF))
-                .addGap(86, 86, 86)
-                .addGroup(SettingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(FormatoStampaLabel)
-                    .addComponent(Stampa1Label)
-                    .addComponent(Stampa2Label))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                .addComponent(FontLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(FontScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48)
-                .addComponent(GeneraButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(65, 65, 65))
-        );
+        SettingsPanel.add(jButtonApplica, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 240, -1, 40));
 
         TabPanel.addTab("Settings", SettingsPanel);
 
@@ -259,20 +234,29 @@ public class MainGame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(TabPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 965, Short.MAX_VALUE)
+                .addComponent(TabPanel)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(TabPanel)
+                .addComponent(TabPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        jButton1.setVisible(false);
+        TXT.setVisible(false);
+        captureComponent(rootPane);
+        jButton1.setVisible(true);
+        TXT.setVisible(true);
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     private void GeneraButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GeneraButtonActionPerformed
         try {
             p.displayPuzzle();
@@ -282,13 +266,13 @@ public class MainGame extends javax.swing.JFrame {
         //Creo modello della tabella di sinistra
         GridModel dataModel = new GridModel(grandezza);
         //Creo modello della tabella di destra
-        WordsTableModel tableModel = new WordsTableModel(p.getArWordsSize(), 4);
+        WordsTableModel tableModel = new WordsTableModel(p.getArWordsSize(), 3);
         //Assegno modello della tabella di sinistra
         jTableWords.setModel(tableModel);
         //Assegno modello della tabella di destra
         jTableGrid.setModel(dataModel);
         //Assegno altezza della tabella di sinistra
-        jTableGrid.setRowHeight(28);
+        jTableGrid.setRowHeight(40);
         //Tolgo gli header della tabella
         jTableGrid.getTableHeader().setVisible(false);
         jTableWords.getTableHeader().setVisible(false);
@@ -302,71 +286,16 @@ public class MainGame extends javax.swing.JFrame {
                 //infine setto il valore attuale nella griglia della tabella
                 jTableGrid.setValueAt(rowData[i], i, j);
             }
-                
-        }  
+        }
         ArrayList<String> arWord = p.getArWords();
         Collections.sort(arWord);
         for (int i = 0; i < arWord.size(); i++) {
             jTableWords.setValueAt(arWord.get(i), i, 0);
-
         }
-        jLabelSecretWord.setVisible(true);
-        jLabelSecretWord.setText("La parola segreta è: " + p.getSecretWord());
-    }//GEN-LAST:event_GeneraButtonActionPerformed
-
-    private void Stampa1LabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Stampa1LabelActionPerformed
-        BufferedImage bImg = new BufferedImage(this.getWidth(), this.getHeight() - 200, BufferedImage.TYPE_INT_RGB);
-        Graphics2D cg = bImg.createGraphics();
-        this.paintAll(cg);
-        try {
-            if (ImageIO.write(bImg, "png", new File("src/Assets/Stampe/FindTheWord.png"))) {
-                System.out.println("-- saved");
-            }
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            System.out.println("Errore nella stampa");
-        }
-    }//GEN-LAST:event_Stampa1LabelActionPerformed
-
-    private void Stampa2LabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Stampa2LabelActionPerformed
-        try {
-            char[][] puz = p.getPuzzle();
-            FileWriter myWriter = new FileWriter("crucipuzzle.txt");
-            for (int i = 0; i < puz.length; i++) {
-                Object rowData[] = new Object[puz[i].length];
-                for (int j = 0; j < puz[i].length; j++) {
-                    rowData[i] = puz[i][j];
-                    myWriter.write((String) rowData[i] + " ");
-                }
-                myWriter.write("\n\r");
-            }
-
-            myWriter.close();
-            System.out.println("Successfully wrote in the file.");
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-    }//GEN-LAST:event_Stampa2LabelActionPerformed
-
-    private void DizionarioFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DizionarioFileActionPerformed
-        //AGGIUNGERE EVENTO CHE FA SCEGLIERE IL FILE CON IL DIZIONARIO
-        //Uso la classe JFileChooser che mi aiuta con il mio caso
         
-        //1. Creo l'oggetto JFileChooser
-        JFileChooser fileChooser = new JFileChooser();
-        //2. Seleziono tramite SetCurrentDirectory in quale directory l'utente
-        //   si troverà al momento che cliccherà il bottone
-        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-        //3. ShowOpenDialog serve per far aprire la finestra di scelta (dialogo)
-        int result = fileChooser.showOpenDialog(this);
-        //4. 
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = fileChooser.getSelectedFile();
-            System.out.println("Selected file: " + selectedFile.getAbsolutePath());
-        }
-    }//GEN-LAST:event_DizionarioFileActionPerformed
+        jLabelSecretWord.setVisible(true);
+        jLabelSecretWord.setText("La parola segreta è: ...............");
+    }//GEN-LAST:event_GeneraButtonActionPerformed
 
     private void DifficoltaToggleONOFFItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_DifficoltaToggleONOFFItemStateChanged
         //AGGIUNGERE EVENTO CHE SEGNA LO STATO DEL BOTTONE ON OFF
@@ -377,6 +306,21 @@ public class MainGame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_DifficoltaToggleONOFFItemStateChanged
 
+    private void jButtonApplicaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApplicaActionPerformed
+        String selectedFont = (String) jComboBox1.getSelectedItem();
+                if (selectedFont != null) {
+                    applyFontToJTable(selectedFont);
+                }
+    }//GEN-LAST:event_jButtonApplicaActionPerformed
+
+    private void DifficoltaToggleONOFFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DifficoltaToggleONOFFActionPerformed
+        jLabelSecretWord.setVisible(!jLabelSecretWord.isVisible());
+    }//GEN-LAST:event_DifficoltaToggleONOFFActionPerformed
+
+    private void TXTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TXTActionPerformed
+        exportToTxt();
+    }//GEN-LAST:event_TXTActionPerformed
+    
     
     /**
      * @param args the command line arguments
@@ -418,24 +362,117 @@ public class MainGame extends javax.swing.JFrame {
     private javax.swing.JLabel AboutText;
     private javax.swing.JLabel DifficoltaLabel;
     private javax.swing.JToggleButton DifficoltaToggleONOFF;
-    private javax.swing.JButton DizionarioFile;
-    private javax.swing.JLabel DizionarioLabel;
     private javax.swing.JLabel FontLabel;
-    private javax.swing.JList<String> FontScelta;
-    private javax.swing.JScrollPane FontScrollPanel;
-    private javax.swing.JLabel FormatoStampaLabel;
     private javax.swing.JPanel GamePanel;
     private javax.swing.JButton GeneraButton;
     private javax.swing.JPanel SettingsPanel;
-    private javax.swing.JButton Stampa1Label;
-    private javax.swing.JButton Stampa2Label;
+    private javax.swing.JButton TXT;
     private javax.swing.JTabbedPane TabPanel;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonApplica;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabelSecretWord;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTableGrid;
     private javax.swing.JTable jTableWords;
     // End of variables declaration//GEN-END:variables
-    
+    private static void captureComponent(Component component){
+        BufferedImage image = new BufferedImage(component.getWidth(),
+                component.getHeight(), BufferedImage.TYPE_INT_ARGB);
+        component.paint(image.getGraphics());
+        String desktopPath = System.getProperty("user.home") + File.separator;
+        String fileName = "output.png";
+        String filePath = desktopPath + File.separator + fileName;
+        File fileToSave = new File(filePath);
+        try {
+            ImageIO.write(image, "png", fileToSave);
+            JOptionPane.showMessageDialog(null, "Frame capture saved successfully!");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+       private static String[] getMonospacedFonts() {
+        String[] allFonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
+        java.util.List<String> monospacedFonts = new java.util.ArrayList<>();
+
+        for (String font : allFonts) {
+            FontMetrics fontMetrics = new JLabel().getFontMetrics(new Font(font, Font.PLAIN, 20));
+            if (fontMetrics.stringWidth("M") == fontMetrics.stringWidth("i")) {
+                monospacedFonts.add(font);
+            }
+        }
+
+        return monospacedFonts.toArray(new String[0]);
+    }
+    private void applyFontToJTable(String fontName) {
+        Font selectedFont = new Font(fontName, Font.PLAIN, 20); 
+
+        // Applica il font all'header della JTable
+        JTableHeader tableHeaderWords = jTableWords.getTableHeader();
+        JTableHeader tableHeaderGrid = jTableGrid.getTableHeader();
+        if (tableHeaderWords != null) {
+            tableHeaderWords.setFont(selectedFont);
+        }
+        if(tableHeaderGrid != null){
+            tableHeaderGrid.setFont(selectedFont);
+        }
+
+        // Applica il font alla JTable
+        jTableWords.setFont(selectedFont);
+        jTableGrid.setFont(selectedFont);
+    }
+    private static void writeTableToTxt(BufferedWriter writer, JTable table, String tableName) throws IOException {
+        // Scrivi il nome della tabella nel file
+        writer.write(tableName + "\n");
+
+        // Scrittura dell'intestazione
+        for (int col = 0; col < table.getColumnCount(); col++) {
+            writer.write(table.getColumnName(col) + "\t");
+        }
+        writer.write("\n");
+
+        // Scrittura dei dati
+        for (int row = 0; row < table.getRowCount(); row++) {
+            for (int col = 0; col < table.getColumnCount(); col++) {
+                Object cellValue = table.getValueAt(row, col);
+                if (cellValue != null) {
+                    writer.write(cellValue.toString() + "\t");
+                } else {
+                    writer.write("\t"); // Scrivi una stringa vuota se il valore è null
+                }
+            }
+            writer.write("\n");
+        }
+
+        writer.write("\n"); // Aggiungi una riga vuota tra le tabelle per separarle
+    }
+    private void exportToTxt() {
+        try {
+            // Ottieni il percorso del desktop dell'utente
+            String desktopPath = System.getProperty("user.home") + File.separator;
+
+            // Creazione del percorso completo del file sul desktop
+            String filePath = desktopPath + File.separator + "output.txt";
+
+            // Creazione di un BufferedWriter per scrivere nel file
+            BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
+
+            // Scrivi i dati delle tabelle nel file
+            writeTableToTxt(writer, jTableGrid, "Griglia Principale");
+            writeTableToTxt(writer, jTableWords, "Griglia di Parole");
+
+            // Chiudi il BufferedWriter
+            writer.close();
+
+            JOptionPane.showMessageDialog(null,
+                    "Esportazione completata con successo!");
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, 
+                    "Errore durante l'esportazione", "Errore", 
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }
 

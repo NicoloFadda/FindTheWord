@@ -1,0 +1,114 @@
+Aggiungi a questo uml il fatto che:
+Utilizzo "InsertWords" dentro "Puzzle"
+Utilizzo "Consts" dentro "InsertWords"
+Utilizzo "Consts" dentro "Controls"
+
+@startuml
+!theme carbon-gray
+package Game {
+    class Consts {
+        - costanti
+        + HORIZONTAL: int = -1
+        + VERTICAL: int = -2
+        + DIAGONAL_TLBR: int = -3
+        + DIAGONAL_BLTR: int = -4
+        + DIAGONAL_TRBL: int = -5
+        + DIAGONAL_BRTL: int = -6
+        + HORIZONTAL_INVERSE: int = -7
+        + VERTICAL_INVERSE: int = -8
+        + MIN_WORD_LENGTH: int = 3
+    }
+    class InsertWords {
+        - insertHorizontalWord(String word, int row, int col, char[][] board)
+        - insertVerticalWord(String word, int row, int col, char[][] board)
+        - insertDiagonalWordBRTL(String word, int row, int col, char[][] board)
+        - insertDiagonalWordTRBL(String word, int row, int col, char[][] board)
+        - insertDiagonalWordTLBR(String word, int row, int col, char[][] board)
+        - insertDiagonalWordBLTR(String word, int row, int col, char[][] board)
+        - insertInverseWordHorizontal(String word, int row, int col, char[][] board)
+        - insertInverseWordVertical(String word, int row, int col, char[][] board)
+        - insertWord(String word, int row, int col, int orientation, char[][] board)
+    }
+    class Puzzle {
+        - controls: Controls
+        - puzzle: char[][]
+        - random: Random
+        - insertWord: InsertWords
+        - rows: int
+        - cols: int
+        - remainingCellCounter: int
+        - secretWordLength: int
+        - words: String[]
+        - secretWord: String
+        - arWords: ArrayList<String>
+        - dictionary: ArrayList<String>
+        - maxRow: int
+        - maxCol: int
+        - dizionario: File
+        + Puzzle(rows: int, columns: int)
+        + fillPuzzle(): void
+        + displayPuzzle(): void
+        + insertSecretWord(secretWord: String): void
+        + findSecretWordInFile(): void
+        + removeDuplicatesFromFile(): void
+        + readArList(): void
+        + showWords(): void
+        + purifyWord(word: String): String
+        + getValue(row: int, col: int): char
+        + getRows(): int
+        + getColums(): int
+        + getRemainingCells(): int
+        + getSecretWordLength(): int
+        + setPuzzle(puzzle: char[][]): void
+        + getArWords(): ArrayList<String>
+        + getArWordsSize(): int
+        + setSecretWord(secretWord: String): void
+        + getSecretWord(): String
+        + getDictionary(): ArrayList<String>
+        + getPuzzle(): char[][]
+        + getMaxRow(): int
+        + getMaxCol(): int
+        + setDizionarioFile(filePath: String): void
+        + setDictionary(dictionary: ArrayList<String>): void
+        + setWord(word: String, row: int, col: int, orientation: int): void
+        + setWordsWhileYouCan(): void
+    }
+    class Controls {
+        - actualWordLength: int
+        + getActualWordLength(): int
+        + checkOrientation(int orientation): int
+        + isInBounds(String word, int row, int col, int orientation, Puzzle board): boolean
+        + isInBoundsHorizontal(String word, int col, Puzzle board): boolean
+        + isInBoundsVertical(String word, int row, Puzzle board): boolean
+        + isInBoundsDiagonalBLTR(String word, int col, int row, Puzzle board): boolean
+        + isInBoundsDiagonalBRTL(String word, int col, int row, Puzzle board): boolean
+        + isInBoundsDiagonalTRBL(String word, int col, int row, Puzzle board): boolean
+        + isInBoundsDiagonalTLBR(String word, int col, int row, Puzzle board): boolean
+        + isInBoundsInverseHorizontal(String word, int col): boolean
+        + isInBoundsInverseVertical(String word, int row): boolean
+        + isValidOverlapping(String word, int row, int col, int orientation, Puzzle board): boolean
+    }
+    class GridModel {
+        - puzzleData: char[][]
+        + GridModel(int grandezzaCampo)
+        + getRowCount(): int
+        + getColumnCount(): int
+        + getValueAt(int row, int column): Object
+        + setValueAt(Object value, int row, int column): void
+        + isCellEditable(int row, int column): boolean
+    }
+    class WordsTableModel {
+        - parole: String[][]
+        + WordsTableModel(int numeroRighe, int numeroColonne)
+        + getRowCount(): int
+        + getColumnCount(): int
+        + getValueAt(int row, int column): Object
+        + setValueAt(Object value, int row, int column): void
+        + isCellEditable(int row, int column): boolean
+    }
+    interface JFrame {
+        + MainGame()
+    }
+}
+@enduml
+

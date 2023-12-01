@@ -176,10 +176,8 @@ public class Controls {
             }else if(boardChar == wordChar){
                 actualWordLength--;
             } else {
-                //System.out.println("La parola " + word.toUpperCase() + " @("+originalRow+";"+originalCol+")" + " orient " + orientation + " charIndex "+ i +" conflitto con " + boardChar + "@("+row+";"+col+")");
                 return false;
             }
-
             if (orientation == Consts.costanti.HORIZONTAL) {
                 col++;
             }

@@ -68,7 +68,6 @@ public class InsertWords {
     // </editor-fold> 
     // <editor-fold defaultstate="collapsed" desc="Metodo Insert Generale">  
     public void insertWord(String word, int row, int col, int orientation, char[][] board){
-        //System.out.println("inserting "+ word+" at ("+row+";"+col+") -> "+orientation);
         switch(orientation){
             case Consts.costanti.HORIZONTAL:
                 insertHorizontalWord(word, row, col, board);

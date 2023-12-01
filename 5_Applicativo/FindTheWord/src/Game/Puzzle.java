@@ -37,6 +37,7 @@ public class Puzzle {
     private ArrayList<String> dictionary = new ArrayList();
     int maxRow = 10;
     int maxCol = 10;
+    File dizionario = new File("src/Assets/Dizionario.txt");
     // </editor-fold> 
     // <editor-fold defaultstate="collapsed" desc="Costruttore">     
     public Puzzle(int rows, int columns) {
@@ -135,8 +136,7 @@ public class Puzzle {
     }
 
     public void readArList() throws FileNotFoundException {
-        File dizionario = new File("src/Assets/Dizionario.txt");
-        Scanner scanner = new Scanner(dizionario);
+        Scanner scanner = new Scanner(this.dizionario);
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             line = line.toUpperCase();
@@ -222,6 +222,14 @@ public class Puzzle {
         return maxCol;
     }
 
+    public void setDizionarioFile(String filePath) {
+        // Imposta il percorso del file del dizionario
+        this.dizionario = new File(filePath);
+    }
+
+    public void setDictionary(ArrayList<String> dictionary) {
+        this.dictionary = dictionary;
+    }
     
 
     // </editor-fold> 
@@ -229,9 +237,6 @@ public class Puzzle {
     public void setWord(String word, int row, int col, int orientation) {
 
         boolean inBounds = controls.isInBounds(word, row, col, orientation, this);
-
-        //System.out.println("checking " + word + " at (" + row + ";" + col + ") -> " + orientation + " len " + word.length() + " inBounds " + inBounds);
-
         if (inBounds) {
             if (controls.isValidOverlapping(word, row, col, orientation, this)) {
                 insertWord.insertWord(word, row, col, orientation, puzzle);
